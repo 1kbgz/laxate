@@ -1,6 +1,6 @@
 # laxate
 
-Help with your BMs
+Help with your Benchmarks
 
 [![Build Status](https://github.com/1kbgz/laxate/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/1kbgz/laxate/actions/workflows/build.yaml)
 [![codecov](https://codecov.io/gh/1kbgz/laxate/branch/main/graph/badge.svg)](https://codecov.io/gh/1kbgz/laxate)

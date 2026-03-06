@@ -9,12 +9,12 @@ name = "laxate"
 authors = [
     {name = "the laxate authors", email = "dev@1kbgz.com"},
 ]
-description = "Help with your BMs"
+description = "Cloud-based ASV benchmark runner"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 version = "0.1.0"
 requires-python = ">=3.10"
-keywords = []
+keywords = ["benchmarks", "asv", "hetzner", "performance"]
 
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -29,7 +29,9 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 
-dependencies = []
+dependencies = [
+    "asv>=0.6",
+]
 
 [project.optional-dependencies]
 develop = [
@@ -49,7 +51,13 @@ develop = [
     "wheel",
 ]
 
+hetzner = [
+    "hcloud>=2.0",
+    "paramiko>=3.0",
+]
+
 [project.scripts]
+laxate = "laxate.cli:main"
 
 [project.urls]
 Repository = "https://github.com/1kbgz/laxate"
@@ -138,3 +146,16 @@ section-order = [
     "F401",
     "F403",
 ]
+
+# Example [tool.laxate] configuration (put this in *your* project's pyproject.toml):
+#
+# [tool.laxate]
+# asv_config = "my_benchmarks/asv.conf.json"
+# asv_publish_config = "my_benchmarks/asv.publish.conf.json"
+# asv_machine_json = "my_benchmarks/asv-machine.json"
+# benchmark_repo = "https://github.com/org/my-benchmarks.git"
+# project_repo = "https://github.com/org/my-project.git"
+# server_name_prefix = "my-benchmark-runner"
+# python_versions = ["3.11", "3.12", "3.13"]
+# cloud_init_packages = ["git", "python3", "python3-pip", "python3-venv", "build-essential"]
+# results_dir = "results"
