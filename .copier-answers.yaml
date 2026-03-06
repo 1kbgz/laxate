@@ -1,0 +1,12 @@
+# Changes here will be overwritten by Copier
+_commit: 28c66e4
+_src_path: https://github.com/python-project-templates/base.git
+add_docs: false
+add_extension: python
+add_wiki: false
+email: dev@1kbgz.com
+github: 1kbgz
+project_description: Help with your BMs
+project_name: laxate
+python_version_primary: '3.11'
+team: the laxate authors
