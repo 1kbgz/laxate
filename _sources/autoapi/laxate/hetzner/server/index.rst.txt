@@ -1,0 +1,122 @@
+laxate.hetzner.server
+=====================
+
+.. py:module:: laxate.hetzner.server
+
+.. autoapi-nested-parse::
+
+   Hetzner Cloud server management for benchmarks.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   laxate.hetzner.server.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   laxate.hetzner.server.ServerConfig
+   laxate.hetzner.server.HetznerServerManager
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: ServerConfig
+
+   Configuration for a Hetzner benchmark server.
+
+
+   .. py:attribute:: name
+      :type:  str
+      :value: 'benchmark-runner'
+
+
+
+   .. py:attribute:: server_type
+      :type:  str
+      :value: 'cx23'
+
+
+
+   .. py:attribute:: image
+      :type:  str
+      :value: 'ubuntu-24.04'
+
+
+
+   .. py:attribute:: location
+      :type:  str
+      :value: 'nbg1'
+
+
+
+   .. py:attribute:: ssh_key_name
+      :type:  str | None
+      :value: None
+
+
+
+   .. py:attribute:: cloud_init_packages
+      :type:  list[str]
+      :value: ['git', 'python3', 'python3-pip', 'python3-venv', 'build-essential']
+
+
+
+.. py:class:: HetznerServerManager(token: str, config: ServerConfig | None = None)
+
+   Manages Hetzner Cloud servers for running benchmarks.
+
+   Usage::
+
+       manager = HetznerServerManager(token="your-hcloud-token")
+       server = manager.create_server()
+       # … run benchmarks …
+       manager.delete_server(server)
+
+
+   .. py:attribute:: client
+
+
+   .. py:attribute:: config
+
+
+   .. py:method:: create_server(wait_for_ready: bool = True) -> hcloud.servers.BoundServer
+
+      Create a new Hetzner server for benchmarking.
+
+
+
+   .. py:method:: delete_server(server: hcloud.servers.BoundServer) -> None
+
+      Delete a Hetzner server.
+
+
+
+   .. py:method:: get_server(name: str | None = None) -> hcloud.servers.BoundServer | None
+
+      Get an existing server by name.
+
+
+
+   .. py:method:: _wait_for_server_ready(server: hcloud.servers.BoundServer, timeout: int = 300) -> None
+
+      Wait for the server to be running.
+
+
+
+   .. py:method:: _get_cloud_init_script() -> str
+
+      Build a cloud-init script from configured packages.
+
+
+

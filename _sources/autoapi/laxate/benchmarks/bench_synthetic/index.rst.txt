@@ -1,0 +1,95 @@
+laxate.benchmarks.bench_synthetic
+=================================
+
+.. py:module:: laxate.benchmarks.bench_synthetic
+
+.. autoapi-nested-parse::
+
+   Synthetic benchmarks for laxate.
+
+   These benchmarks exercise basic Python operations to verify
+   the ASV benchmark infrastructure is working end-to-end.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   laxate.benchmarks.bench_synthetic.ConfigParseSuite
+   laxate.benchmarks.bench_synthetic.ComputeSuite
+
+
+Module Contents
+---------------
+
+.. py:class:: ConfigParseSuite
+
+   Benchmarks for configuration parsing operations.
+
+
+   .. py:attribute:: params
+      :value: ([10, 100, 1000],)
+
+
+
+   .. py:attribute:: param_names
+      :value: ['num_keys']
+
+
+
+   .. py:method:: setup(num_keys)
+
+
+   .. py:method:: time_json_roundtrip(num_keys)
+
+      Time JSON serialization and deserialization.
+
+
+
+   .. py:method:: time_json_parse(num_keys)
+
+      Time JSON deserialization.
+
+
+
+   .. py:method:: time_dict_merge(num_keys)
+
+      Time dictionary merge (config override pattern).
+
+
+
+.. py:class:: ComputeSuite
+
+   Simple compute benchmarks to track runner performance.
+
+
+   .. py:attribute:: params
+      :value: ([100, 1000, 10000],)
+
+
+
+   .. py:attribute:: param_names
+      :value: ['iterations']
+
+
+
+   .. py:method:: time_math_operations(iterations)
+
+      Time basic math operations.
+
+
+
+   .. py:method:: time_list_comprehension(iterations)
+
+      Time list creation and processing.
+
+
+
+   .. py:method:: time_string_formatting(iterations)
+
+      Time string formatting operations.
+
+
+

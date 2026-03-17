@@ -1,0 +1,60 @@
+test_local
+==========
+
+.. py:module:: test_local
+
+.. autoapi-nested-parse::
+
+   Tests for laxate.local module — LocalBenchmarkRunner.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   test_local.TestLocalBenchmarkRunnerInit
+   test_local.TestLocalBenchmarkRunnerRun
+   test_local.TestLocalBenchmarkRunnerPush
+
+
+Module Contents
+---------------
+
+.. py:class:: TestLocalBenchmarkRunnerInit
+
+   .. py:method:: test_defaults()
+
+
+   .. py:method:: test_with_config()
+
+
+   .. py:method:: test_with_laxate_config(tmp_path)
+
+
+.. py:class:: TestLocalBenchmarkRunnerRun
+
+   .. py:method:: test_basic_run(mock_call, tmp_path)
+
+
+   .. py:method:: test_quick_mode(mock_call, tmp_path)
+
+
+   .. py:method:: test_machine_name(mock_call, tmp_path)
+
+
+   .. py:method:: test_quick_and_machine(mock_call, tmp_path)
+
+
+   .. py:method:: test_nonzero_returncode(mock_call, tmp_path)
+
+
+   .. py:method:: test_custom_asv_config(mock_call, tmp_path)
+
+
+.. py:class:: TestLocalBenchmarkRunnerPush
+
+   .. py:method:: test_push_is_noop(tmp_path)
+
+

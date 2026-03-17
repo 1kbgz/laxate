@@ -1,0 +1,146 @@
+laxate.hetzner
+==============
+
+.. py:module:: laxate.hetzner
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/laxate/hetzner/cli/index
+   /autoapi/laxate/hetzner/runner/index
+   /autoapi/laxate/hetzner/server/index
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   laxate.hetzner.HetznerBenchmarkRunner
+   laxate.hetzner.HetznerServerManager
+
+
+Package Contents
+----------------
+
+.. py:class:: HetznerBenchmarkRunner(server: hcloud.servers.BoundServer, config: laxate.runner.BenchmarkConfig | None = None, ssh_key_path: str | None = None)
+
+   Bases: :py:obj:`laxate.runner.BenchmarkRunner`
+
+
+   Run ASV benchmarks on a Hetzner Cloud server.
+
+   Handles:
+   1. SSH connection to the server
+   2. Setting up the benchmark environment
+   3. Running ASV benchmarks
+   4. Collecting and returning results
+
+
+   .. py:attribute:: server
+
+
+   .. py:attribute:: ssh_key_path
+      :value: None
+
+
+
+   .. py:attribute:: server_ip
+
+
+   .. py:attribute:: _remote
+
+
+   .. py:attribute:: _machine_name
+      :type:  str | None
+      :value: None
+
+
+
+   .. py:method:: run_benchmarks() -> dict
+
+      Run the full benchmark suite on the remote server.
+
+      :returns: Dictionary containing benchmark results and metadata.
+
+
+
+   .. py:method:: push_results_to_repo(github_token: str | None = None) -> None
+
+      Commit and push benchmark results back to the repository.
+
+
+
+   .. py:method:: _setup_environment() -> None
+
+      Set up the benchmark environment on the remote server.
+
+
+
+   .. py:method:: _run_asv() -> str
+
+      Run ASV benchmarks and return combined stdout+stderr.
+
+
+
+   .. py:method:: _collect_results(asv_output: str) -> dict
+
+      Download and return benchmark results from the remote server.
+
+
+
+   .. py:method:: _server_meta() -> dict
+
+
+.. py:class:: HetznerServerManager(token: str, config: ServerConfig | None = None)
+
+   Manages Hetzner Cloud servers for running benchmarks.
+
+   Usage::
+
+       manager = HetznerServerManager(token="your-hcloud-token")
+       server = manager.create_server()
+       # … run benchmarks …
+       manager.delete_server(server)
+
+
+   .. py:attribute:: client
+
+
+   .. py:attribute:: config
+
+
+   .. py:method:: create_server(wait_for_ready: bool = True) -> hcloud.servers.BoundServer
+
+      Create a new Hetzner server for benchmarking.
+
+
+
+   .. py:method:: delete_server(server: hcloud.servers.BoundServer) -> None
+
+      Delete a Hetzner server.
+
+
+
+   .. py:method:: get_server(name: str | None = None) -> hcloud.servers.BoundServer | None
+
+      Get an existing server by name.
+
+
+
+   .. py:method:: _wait_for_server_ready(server: hcloud.servers.BoundServer, timeout: int = 300) -> None
+
+      Wait for the server to be running.
+
+
+
+   .. py:method:: _get_cloud_init_script() -> str
+
+      Build a cloud-init script from configured packages.
+
+
+

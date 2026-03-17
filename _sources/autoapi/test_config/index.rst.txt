@@ -1,0 +1,60 @@
+test_config
+===========
+
+.. py:module:: test_config
+
+.. autoapi-nested-parse::
+
+   Tests for laxate.config module.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   test_config.TestLaxateConfig
+   test_config.TestLoadPyprojectConfig
+   test_config.TestLoadConfig
+
+
+Module Contents
+---------------
+
+.. py:class:: TestLaxateConfig
+
+   .. py:method:: test_defaults()
+
+
+   .. py:method:: test_custom()
+
+
+   .. py:method:: test_resolve_path_relative(tmp_path)
+
+
+   .. py:method:: test_resolve_path_absolute(tmp_path)
+
+
+.. py:class:: TestLoadPyprojectConfig
+
+   .. py:method:: test_no_pyproject(tmp_path)
+
+
+   .. py:method:: test_pyproject_without_tool_laxate(tmp_path)
+
+
+   .. py:method:: test_pyproject_with_tool_laxate(tmp_path)
+
+
+.. py:class:: TestLoadConfig
+
+   .. py:method:: test_defaults_no_pyproject(tmp_path)
+
+
+   .. py:method:: test_overrides_win(tmp_path)
+
+
+   .. py:method:: test_none_overrides_ignored(tmp_path)
+
+

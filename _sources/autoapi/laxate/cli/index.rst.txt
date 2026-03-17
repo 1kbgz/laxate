@@ -1,0 +1,94 @@
+laxate.cli
+==========
+
+.. py:module:: laxate.cli
+
+.. autoapi-nested-parse::
+
+   Main CLI entry point for laxate.
+
+   Usage::
+
+       laxate run local                              # run benchmarks locally
+       laxate run local --quick                      # quick mode
+       laxate run docker --image python:3.12         # run in a Docker container
+       laxate run docker --engine podman             # run via Podman
+       laxate run hetzner --token $HCLOUD_TOKEN      # run on Hetzner
+       laxate publish                                # generate HTML report
+       laxate preview                                # preview report locally
+       laxate compare [base] [head]                  # compare two commits
+       laxate cleanup hetzner --token $HCLOUD_TOKEN  # cleanup servers
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   laxate.cli.logger
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   laxate.cli._run_local
+   laxate.cli._run_docker
+   laxate.cli._run_hetzner
+   laxate.cli._publish
+   laxate.cli._preview
+   laxate.cli._compare
+   laxate.cli._cleanup_hetzner
+   laxate.cli._add_hetzner_run_args
+   laxate.cli.main
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:function:: _run_local(args: argparse.Namespace) -> int
+
+   Run ASV benchmarks locally.
+
+
+.. py:function:: _run_docker(args: argparse.Namespace) -> int
+
+   Run ASV benchmarks inside a Docker/Podman container.
+
+
+.. py:function:: _run_hetzner(args: argparse.Namespace) -> int
+
+   Run benchmarks on a Hetzner Cloud server.
+
+
+.. py:function:: _publish(args: argparse.Namespace) -> int
+
+   Generate HTML report from ASV results.
+
+
+.. py:function:: _preview(args: argparse.Namespace) -> int
+
+   Launch a local HTTP server to view ASV results.
+
+
+.. py:function:: _compare(args: argparse.Namespace) -> int
+
+   Compare benchmarks between two commits.
+
+
+.. py:function:: _cleanup_hetzner(args: argparse.Namespace) -> int
+
+   Clean up Hetzner benchmark servers.
+
+
+.. py:function:: _add_hetzner_run_args(parser: argparse.ArgumentParser) -> None
+
+   Add Hetzner-specific arguments to a run parser.
+
+
+.. py:function:: main() -> int
+

@@ -1,0 +1,101 @@
+laxate.hetzner.runner
+=====================
+
+.. py:module:: laxate.hetzner.runner
+
+.. autoapi-nested-parse::
+
+   Hetzner Cloud benchmark runner.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   laxate.hetzner.runner.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   laxate.hetzner.runner.HetznerBenchmarkRunner
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: HetznerBenchmarkRunner(server: hcloud.servers.BoundServer, config: laxate.runner.BenchmarkConfig | None = None, ssh_key_path: str | None = None)
+
+   Bases: :py:obj:`laxate.runner.BenchmarkRunner`
+
+
+   Run ASV benchmarks on a Hetzner Cloud server.
+
+   Handles:
+   1. SSH connection to the server
+   2. Setting up the benchmark environment
+   3. Running ASV benchmarks
+   4. Collecting and returning results
+
+
+   .. py:attribute:: server
+
+
+   .. py:attribute:: ssh_key_path
+      :value: None
+
+
+
+   .. py:attribute:: server_ip
+
+
+   .. py:attribute:: _remote
+
+
+   .. py:attribute:: _machine_name
+      :type:  str | None
+      :value: None
+
+
+
+   .. py:method:: run_benchmarks() -> dict
+
+      Run the full benchmark suite on the remote server.
+
+      :returns: Dictionary containing benchmark results and metadata.
+
+
+
+   .. py:method:: push_results_to_repo(github_token: str | None = None) -> None
+
+      Commit and push benchmark results back to the repository.
+
+
+
+   .. py:method:: _setup_environment() -> None
+
+      Set up the benchmark environment on the remote server.
+
+
+
+   .. py:method:: _run_asv() -> str
+
+      Run ASV benchmarks and return combined stdout+stderr.
+
+
+
+   .. py:method:: _collect_results(asv_output: str) -> dict
+
+      Download and return benchmark results from the remote server.
+
+
+
+   .. py:method:: _server_meta() -> dict
+
+
