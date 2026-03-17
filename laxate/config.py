@@ -28,6 +28,11 @@ DEFAULT_CLOUD_INIT_PACKAGES = [
     "build-essential",
 ]
 
+# Docker defaults
+DEFAULT_DOCKER_IMAGE = "python:3.11"
+DEFAULT_DOCKER_ENGINE = "docker"
+DEFAULT_DOCKER_NETWORK = "host"
+
 
 @dataclass
 class LaxateConfig:
@@ -49,6 +54,18 @@ class LaxateConfig:
 
     # Results
     results_dir: str = "results"
+
+    # Local runner
+    machine: str = ""
+    quick: bool = False
+
+    # Docker runner
+    docker_image: str = DEFAULT_DOCKER_IMAGE
+    docker_engine: str = DEFAULT_DOCKER_ENGINE
+    docker_network: str = DEFAULT_DOCKER_NETWORK
+    docker_init_commands: list[str] = field(default_factory=list)
+    docker_mounts: list[str] = field(default_factory=list)
+    docker_container_name: str = ""
 
     # Project root (where pyproject.toml lives)
     project_root: Path = field(default_factory=lambda: Path.cwd())

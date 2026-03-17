@@ -77,13 +77,13 @@ jobs:
       - name: Configure ASV machine
         run: |
           cp laxate/asv-machine.json ~/.asv-machine.json
-          make benchmark-init
+          python -m asv machine --config laxate/asv.conf.json --verbose --yes
 
       - name: Run benchmarks
-        run: make benchmark MACHINE=github-actions
+        run: laxate run local --machine github-actions
 
       - name: Generate HTML report
-        run: make benchmark-publish
+        run: laxate publish
 
       - name: Upload benchmark results
         uses: actions/upload-artifact@v7
@@ -136,7 +136,7 @@ jobs:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          laxate hetzner run \
+          laxate run hetzner \
             --server-type ${{ github.event.inputs.server_type || 'cx23' }} \
             --ssh-key ~/.ssh/hetzner_key \
             --ssh-key-name benchmarks \
@@ -148,4 +148,4 @@ jobs:
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
         run: |
-          laxate hetzner cleanup || true
+          laxate cleanup hetzner || true

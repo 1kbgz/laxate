@@ -36,7 +36,7 @@ class TestServerConfig:
 
 class TestBenchmarkConfig:
     def test_default_config(self):
-        from laxate.hetzner.runner import BenchmarkConfig
+        from laxate.runner import BenchmarkConfig
 
         config = BenchmarkConfig()
         assert config.branches == ["main"]
@@ -45,7 +45,7 @@ class TestBenchmarkConfig:
         assert config.asv_machine_json == "asv-machine.json"
 
     def test_custom_config(self):
-        from laxate.hetzner.runner import BenchmarkConfig
+        from laxate.runner import BenchmarkConfig
 
         config = BenchmarkConfig(
             branches=["main", "develop"],
@@ -58,7 +58,7 @@ class TestBenchmarkConfig:
 
     def test_from_laxate_config(self):
         from laxate.config import LaxateConfig
-        from laxate.hetzner.runner import BenchmarkConfig
+        from laxate.runner import BenchmarkConfig
 
         laxate_cfg = LaxateConfig(
             benchmark_repo="https://example.com/bench.git",
@@ -110,7 +110,8 @@ class TestHetznerBenchmarkRunner:
         assert runner.config.branches == ["main"]
 
     def test_init_with_config(self):
-        from laxate.hetzner.runner import BenchmarkConfig, HetznerBenchmarkRunner
+        from laxate.hetzner.runner import HetznerBenchmarkRunner
+        from laxate.runner import BenchmarkConfig
 
         mock_server = MagicMock()
         mock_server.public_net.ipv4.ip = "1.2.3.4"
@@ -129,7 +130,6 @@ class TestHetznerCLI:
     def test_cli_module_importable(self):
         from laxate.hetzner import cli
 
-        assert hasattr(cli, "main")
         assert hasattr(cli, "run_benchmarks")
         assert hasattr(cli, "cleanup_servers")
 

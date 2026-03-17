@@ -154,3 +154,9 @@ asv_config = "laxate/asv.conf.json"
 asv_publish_config = "laxate/asv.publish.conf.json"
 asv_machine_json = "laxate/asv-machine.json"
 results_dir = "laxate/results"
+
+[tool.yardang]
+pages = [
+    "docs/src/usage.md",
+    "docs/src/API.md",
+]

@@ -7,6 +7,9 @@ from laxate.config import (
     DEFAULT_ASV_MACHINE_JSON,
     DEFAULT_ASV_PUBLISH_CONFIG,
     DEFAULT_CLOUD_INIT_PACKAGES,
+    DEFAULT_DOCKER_ENGINE,
+    DEFAULT_DOCKER_IMAGE,
+    DEFAULT_DOCKER_NETWORK,
     DEFAULT_PYTHON_VERSIONS,
     DEFAULT_SERVER_NAME_PREFIX,
     LaxateConfig,
@@ -27,6 +30,16 @@ class TestLaxateConfig:
         assert cfg.benchmark_repo == ""
         assert cfg.project_repo == ""
         assert cfg.results_dir == "results"
+        # Local
+        assert cfg.machine == ""
+        assert cfg.quick is False
+        # Docker
+        assert cfg.docker_image == DEFAULT_DOCKER_IMAGE
+        assert cfg.docker_engine == DEFAULT_DOCKER_ENGINE
+        assert cfg.docker_network == DEFAULT_DOCKER_NETWORK
+        assert cfg.docker_init_commands == []
+        assert cfg.docker_mounts == []
+        assert cfg.docker_container_name == ""
 
     def test_custom(self):
         cfg = LaxateConfig(

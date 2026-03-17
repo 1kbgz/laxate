@@ -1,59 +1,22 @@
-"""Generic ASV benchmark runner for Hetzner Cloud servers."""
+"""Hetzner Cloud benchmark runner."""
 
 from __future__ import annotations
 
 import logging
 import tempfile
-from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from hcloud.servers import BoundServer
 
-from ..config import DEFAULT_PYTHON_VERSIONS, LaxateConfig
 from ..remote import RemoteExecutor
+from ..runner import BenchmarkConfig, BenchmarkRunner
 
 logger = logging.getLogger(__name__)
 
 
-@dataclass
-class BenchmarkConfig:
-    """Configuration for a benchmark run on a remote server."""
-
-    benchmark_repo: str = ""
-    project_repo: str = ""
-    branches: list[str] = field(default_factory=lambda: ["main"])
-    python_versions: list[str] = field(default_factory=lambda: list(DEFAULT_PYTHON_VERSIONS))
-    commit_range: str | None = None  # e.g. "HEAD~5..HEAD"
-
-    # Paths inside the cloned benchmark repo (relative to repo root)
-    asv_config: str = "asv.conf.json"
-    asv_machine_json: str = "asv-machine.json"
-    results_dir: str = "results"
-
-    # Extra install groups (e.g. "develop", "hetzner")
-    install_extras: list[str] = field(default_factory=lambda: ["develop"])
-
-    # Use --python=same and --set-commit-hash HEAD (for benchmarking current project)
-    python_same: bool = True
-
-    @classmethod
-    def from_laxate_config(cls, cfg: LaxateConfig, **overrides) -> BenchmarkConfig:
-        """Build a BenchmarkConfig from the top-level LaxateConfig."""
-        vals = {
-            "benchmark_repo": cfg.benchmark_repo,
-            "project_repo": cfg.project_repo,
-            "python_versions": cfg.python_versions,
-            "asv_config": cfg.asv_config,
-            "asv_machine_json": cfg.asv_machine_json,
-            "results_dir": cfg.results_dir,
-        }
-        vals.update({k: v for k, v in overrides.items() if v is not None})
-        return cls(**{k: v for k, v in vals.items() if k in cls.__dataclass_fields__})
-
-
-class HetznerBenchmarkRunner:
+class HetznerBenchmarkRunner(BenchmarkRunner):
     """Run ASV benchmarks on a Hetzner Cloud server.
 
     Handles:
@@ -69,8 +32,8 @@ class HetznerBenchmarkRunner:
         config: BenchmarkConfig | None = None,
         ssh_key_path: str | None = None,
     ):
+        super().__init__(config)
         self.server = server
-        self.config = config or BenchmarkConfig()
         self.ssh_key_path = ssh_key_path
         self.server_ip = server.public_net.ipv4.ip
         self._remote = RemoteExecutor(
@@ -111,8 +74,8 @@ class HetznerBenchmarkRunner:
         commands = [
             f"cd {repo_dir} && git config user.email 'benchmark-bot@example.com'",
             f"cd {repo_dir} && git config user.name 'Benchmark Bot'",
-            f"cd {repo_dir} && git add -A {self.config.results_dir}/",
-            f"cd {repo_dir} && git status --short {self.config.results_dir}/",
+            f"cd {repo_dir} && git add -f {self.config.results_dir}/",
+            f"cd {repo_dir} && git status --short",
             f"cd {repo_dir} && git commit -m 'Add benchmark results' || true",
         ]
 

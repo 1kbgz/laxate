@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
-"""CLI for running benchmarks on Hetzner Cloud.
+"""Hetzner Cloud benchmark helpers.
 
-Usage::
-
-    laxate hetzner run --token $HCLOUD_TOKEN
-    laxate hetzner cleanup --token $HCLOUD_TOKEN
+These functions are called from the main ``laxate`` CLI via
+``laxate run hetzner`` and ``laxate cleanup hetzner``.
 """
 
 from __future__ import annotations
@@ -12,16 +10,12 @@ from __future__ import annotations
 import argparse
 import logging
 import os
-import sys
 
 from ..config import load_config
-from .runner import BenchmarkConfig, HetznerBenchmarkRunner
+from ..runner import BenchmarkConfig
+from .runner import HetznerBenchmarkRunner
 from .server import HetznerServerManager, ServerConfig
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
 logger = logging.getLogger(__name__)
 
 
@@ -32,7 +26,6 @@ def run_benchmarks(args: argparse.Namespace) -> int:
         logger.error("Hetzner Cloud token required. Set HCLOUD_TOKEN or use --token")
         return 1
 
-    # Load project-level config, CLI args override
     laxate_cfg = load_config(
         overrides={
             "benchmark_repo": args.benchmark_repo,
@@ -117,74 +110,3 @@ def cleanup_servers(args: argparse.Namespace) -> int:
 
     logger.info("Cleaned up %d servers", deleted)
     return 0
-
-
-def add_hetzner_subparser(subparsers: argparse._SubParsersAction) -> None:
-    """Register the ``hetzner`` sub-commands on an existing argparse subparsers group."""
-    hetzner_parser = subparsers.add_parser("hetzner", help="Hetzner Cloud benchmark operations")
-    hetzner_sub = hetzner_parser.add_subparsers(dest="hetzner_command", required=True)
-
-    # --- run ---
-    run_parser = hetzner_sub.add_parser("run", help="Run benchmarks on Hetzner Cloud")
-    run_parser.add_argument("--token", help="Hetzner Cloud API token")
-    run_parser.add_argument("--server-name", help="Server name (default: from config)")
-    run_parser.add_argument("--server-type", default="cx23", help="Hetzner server type")
-    run_parser.add_argument("--ssh-key", help="Path to SSH private key")
-    run_parser.add_argument("--ssh-key-name", help="Name of SSH key in Hetzner")
-    run_parser.add_argument("--branches", default="main", help="Comma-separated branches")
-    run_parser.add_argument("--commits", help="Commit range (e.g. HEAD~5..HEAD)")
-    run_parser.add_argument("--reuse", action="store_true", help="Reuse existing server")
-    run_parser.add_argument("--keep-server", action="store_true", help="Keep server after benchmarks")
-    run_parser.add_argument("--push", action="store_true", help="Push results to repository")
-    run_parser.add_argument("--github-token", help="GitHub token for pushing results")
-    run_parser.add_argument("--benchmark-repo", help="Override benchmark_repo URL")
-    run_parser.add_argument("--project-repo", help="Override project_repo URL")
-    run_parser.add_argument("--asv-config", help="Override asv config path (relative to repo)")
-    run_parser.add_argument("--asv-machine-json", help="Override asv-machine.json path (relative to repo)")
-    run_parser.set_defaults(func=run_benchmarks)
-
-    # --- cleanup ---
-    cleanup_parser = hetzner_sub.add_parser("cleanup", help="Clean up benchmark servers")
-    cleanup_parser.add_argument("--token", help="Hetzner Cloud API token")
-    cleanup_parser.add_argument("--prefix", help="Server name prefix to match for deletion")
-    cleanup_parser.set_defaults(func=cleanup_servers)
-
-
-def main() -> int:
-    """Standalone entry point (``python -m laxate.hetzner.cli``)."""
-    parser = argparse.ArgumentParser(
-        description="Run benchmarks on Hetzner Cloud",
-        prog="laxate hetzner",
-    )
-    subparsers = parser.add_subparsers(dest="command", required=True)
-
-    # Re-use the same sub-command definitions
-    run_parser = subparsers.add_parser("run", help="Run benchmarks on Hetzner Cloud")
-    run_parser.add_argument("--token", help="Hetzner Cloud API token")
-    run_parser.add_argument("--server-name", help="Server name (default: from config)")
-    run_parser.add_argument("--server-type", default="cx23", help="Hetzner server type")
-    run_parser.add_argument("--ssh-key", help="Path to SSH private key")
-    run_parser.add_argument("--ssh-key-name", help="Name of SSH key in Hetzner")
-    run_parser.add_argument("--branches", default="main", help="Comma-separated branches")
-    run_parser.add_argument("--commits", help="Commit range (e.g. HEAD~5..HEAD)")
-    run_parser.add_argument("--reuse", action="store_true", help="Reuse existing server")
-    run_parser.add_argument("--keep-server", action="store_true", help="Keep server after benchmarks")
-    run_parser.add_argument("--push", action="store_true", help="Push results to repository")
-    run_parser.add_argument("--github-token", help="GitHub token for pushing results")
-    run_parser.add_argument("--benchmark-repo", help="Override benchmark_repo URL")
-    run_parser.add_argument("--project-repo", help="Override project_repo URL")
-    run_parser.add_argument("--asv-config", help="Override asv config path (relative to repo)")
-    run_parser.add_argument("--asv-machine-json", help="Override asv-machine.json path (relative to repo)")
-    run_parser.set_defaults(func=run_benchmarks)
-
-    cleanup_parser = subparsers.add_parser("cleanup", help="Clean up benchmark servers")
-    cleanup_parser.add_argument("--token", help="Hetzner Cloud API token")
-    cleanup_parser.add_argument("--prefix", help="Server name prefix to match for deletion")
-    cleanup_parser.set_defaults(func=cleanup_servers)
-
-    args = parser.parse_args()
-    return args.func(args)
-
-
-if __name__ == "__main__":
-    sys.exit(main())
