@@ -1,0 +1,151 @@
+name: Benchmarks
+
+on:
+  workflow_dispatch:
+    inputs:
+      use_hetzner:
+        description: 'Use Hetzner Cloud for benchmarks'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+      branch:
+        description: 'Branch to benchmark'
+        required: false
+        default: 'main'
+        type: string
+      python_version:
+        description: 'Python version'
+        required: false
+        default: '3.11'
+        type: choice
+        options:
+          - '3.11'
+          - '3.12'
+          - '3.13'
+      server_type:
+        description: 'Hetzner server type'
+        required: false
+        default: 'cx23'
+        type: choice
+        options:
+          - 'cx23'
+          - 'cx33'
+          - 'cx43'
+          - 'cx53'
+          - 'ccx13'
+          - 'ccx23'
+          - 'ccx33'
+          - 'ccx43'
+          - 'ccx53'
+          - 'ccx63'
+
+  push:
+    branches:
+      - main
+    paths:
+      - 'laxate/benchmarks/**'
+      - 'laxate/asv.conf.json'
+
+concurrency:
+  group: benchmarks-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark-local:
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.use_hetzner == 'false')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.inputs.branch || github.ref }}
+
+      - uses: actions-ext/python/setup@main
+        with:
+          version: ${{ github.event.inputs.python_version || '3.11' }}
+
+      - name: Install dependencies
+        run: make develop
+
+      - name: Configure ASV machine
+        run: |
+          cp laxate/asv-machine.json ~/.asv-machine.json
+          make benchmark-init
+
+      - name: Run benchmarks
+        run: make benchmark MACHINE=github-actions
+
+      - name: Generate HTML report
+        run: make benchmark-publish
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-results
+          path: |
+            laxate/results/
+            docs/benchmarks/
+
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch')
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/benchmarks
+
+  benchmark-hetzner:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.use_hetzner == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.inputs.branch || github.ref }}
+
+      - uses: actions-ext/python/setup@main
+        with:
+          version: ${{ github.event.inputs.python_version || '3.11' }}
+
+      - name: Install dependencies
+        run: |
+          make develop
+          pip install -e ".[hetzner]"
+
+      - name: Set up SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.HETZNER_SSH_PRIVATE_KEY }}
+        run: |
+          if [ -z "$SSH_PRIVATE_KEY" ]; then
+            echo "ERROR: HETZNER_SSH_PRIVATE_KEY secret is not set"
+            exit 1
+          fi
+          mkdir -p ~/.ssh
+          printf "%s\n" "$SSH_PRIVATE_KEY" > ~/.ssh/hetzner_key
+          chmod 600 ~/.ssh/hetzner_key
+
+      - name: Run benchmarks on Hetzner
+        env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          laxate hetzner run \
+            --server-type ${{ github.event.inputs.server_type || 'cx23' }} \
+            --ssh-key ~/.ssh/hetzner_key \
+            --ssh-key-name benchmarks \
+            --branches ${{ github.event.inputs.branch || 'main' }} \
+            --push
+
+      - name: Cleanup servers
+        if: always()
+        env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+        run: |
+          laxate hetzner cleanup || true

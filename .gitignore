@@ -145,3 +145,12 @@ target
 # Hydra
 outputs/
 multirun/
+
+# ASV benchmarks
+.asv/
+laxate/results/
+laxate/laxate/
+docs/benchmarks/
+
+# Reference repos
+csp-benchmarks/

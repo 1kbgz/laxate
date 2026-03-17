@@ -1,0 +1,91 @@
+{
+    "github-actions": {
+        "arch": "x86_64",
+        "cpu": "GitHub Actions Runner (2 vCPU)",
+        "machine": "github-actions",
+        "num_cpu": "2",
+        "os": "Ubuntu 24.04",
+        "ram": "7GB"
+    },
+    "hetzner-cx23": {
+        "arch": "x86_64",
+        "cpu": "Intel/AMD (2 vCPU)",
+        "machine": "hetzner-cx23",
+        "num_cpu": "2",
+        "os": "Ubuntu 24.04",
+        "ram": "4GB"
+    },
+    "hetzner-cx33": {
+        "arch": "x86_64",
+        "cpu": "Intel/AMD (4 vCPU)",
+        "machine": "hetzner-cx33",
+        "num_cpu": "4",
+        "os": "Ubuntu 24.04",
+        "ram": "8GB"
+    },
+    "hetzner-cx43": {
+        "arch": "x86_64",
+        "cpu": "Intel/AMD (8 vCPU)",
+        "machine": "hetzner-cx43",
+        "num_cpu": "8",
+        "os": "Ubuntu 24.04",
+        "ram": "16GB"
+    },
+    "hetzner-cx53": {
+        "arch": "x86_64",
+        "cpu": "Intel/AMD (16 vCPU)",
+        "machine": "hetzner-cx53",
+        "num_cpu": "16",
+        "os": "Ubuntu 24.04",
+        "ram": "32GB"
+    },
+    "hetzner-ccx13": {
+        "arch": "x86_64",
+        "cpu": "AMD EPYC (2 dedicated vCPU)",
+        "machine": "hetzner-ccx13",
+        "num_cpu": "2",
+        "os": "Ubuntu 24.04",
+        "ram": "8GB"
+    },
+    "hetzner-ccx23": {
+        "arch": "x86_64",
+        "cpu": "AMD EPYC (4 dedicated vCPU)",
+        "machine": "hetzner-ccx23",
+        "num_cpu": "4",
+        "os": "Ubuntu 24.04",
+        "ram": "16GB"
+    },
+    "hetzner-ccx33": {
+        "arch": "x86_64",
+        "cpu": "AMD EPYC (8 dedicated vCPU)",
+        "machine": "hetzner-ccx33",
+        "num_cpu": "8",
+        "os": "Ubuntu 24.04",
+        "ram": "32GB"
+    },
+    "hetzner-ccx43": {
+        "arch": "x86_64",
+        "cpu": "AMD EPYC (16 dedicated vCPU)",
+        "machine": "hetzner-ccx43",
+        "num_cpu": "16",
+        "os": "Ubuntu 24.04",
+        "ram": "64GB"
+    },
+    "hetzner-ccx53": {
+        "arch": "x86_64",
+        "cpu": "AMD EPYC (32 dedicated vCPU)",
+        "machine": "hetzner-ccx53",
+        "num_cpu": "32",
+        "os": "Ubuntu 24.04",
+        "ram": "128GB"
+    },
+    "hetzner-ccx63": {
+        "arch": "x86_64",
+        "cpu": "AMD EPYC (48 dedicated vCPU)",
+        "machine": "hetzner-ccx63",
+        "num_cpu": "48",
+        "os": "Ubuntu 24.04",
+        "ram": "192GB"
+    },
+    "version": 1
+}

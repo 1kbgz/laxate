@@ -27,16 +27,16 @@ lint-py:  ## lint python with ruff
 	python -m ruff format --check laxate
 
 lint-docs:  ## lint docs with mdformat and codespell
-	python -m mdformat --check README.md 
-	python -m codespell_lib README.md 
+	python -m mdformat --check README.md
+	python -m codespell_lib README.md
 
 fix-py:  ## autoformat python code with ruff
 	python -m ruff check --fix laxate
 	python -m ruff format laxate
 
 fix-docs:  ## autoformat docs with mdformat and codespell
-	python -m mdformat README.md 
-	python -m codespell_lib --write README.md 
+	python -m mdformat README.md
+	python -m codespell_lib --write README.md
 
 lint: lint-py lint-docs  ## run all linters
 lints: lint
@@ -104,6 +104,30 @@ dist-check:  ## run python dist checker with twine
 dist: clean dist-build dist-check  ## build all dists
 
 publish: dist  ## publish python assets
+
+##############
+# BENCHMARKS #
+##############
+.PHONY: benchmark benchmark-quick benchmark-init benchmark-publish benchmark-view
+
+ASV_CONFIG := $(CURDIR)/laxate/asv.conf.json
+ASV_PUBLISH_CONFIG := $(CURDIR)/laxate/asv.publish.conf.json
+ASV_MACHINE_ARG := $(if $(MACHINE),--machine $(MACHINE),)
+
+benchmark-init: ## Initialize ASV
+	python -m asv machine --config $(ASV_CONFIG) --verbose --yes
+
+benchmark: ## run benchmark
+	python -m asv run --python=same --config $(ASV_CONFIG) --verbose --set-commit-hash HEAD $(ASV_MACHINE_ARG)
+
+benchmark-quick: ## run quick benchmark
+	python -m asv run --quick --python=same --config $(ASV_CONFIG) --verbose --set-commit-hash HEAD $(ASV_MACHINE_ARG)
+
+benchmark-publish:  ## generate viewable website of benchmark results
+	python -m asv publish --config $(ASV_PUBLISH_CONFIG)
+
+benchmark-view: benchmark-publish  ## view the website of benchmark results
+	python -m asv preview --config $(ASV_PUBLISH_CONFIG)
 
 #########
 # CLEAN #

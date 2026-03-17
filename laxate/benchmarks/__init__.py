@@ -1,0 +1,1 @@
+"""Synthetic benchmarks for laxate."""

@@ -35,6 +35,9 @@ class BenchmarkConfig:
     # Extra install groups (e.g. "develop", "hetzner")
     install_extras: list[str] = field(default_factory=lambda: ["develop"])
 
+    # Use --python=same and --set-commit-hash HEAD (for benchmarking current project)
+    python_same: bool = True
+
     @classmethod
     def from_laxate_config(cls, cfg: LaxateConfig, **overrides) -> BenchmarkConfig:
         """Build a BenchmarkConfig from the top-level LaxateConfig."""
@@ -140,7 +143,6 @@ class HetznerBenchmarkRunner:
         self._machine_name = f"hetzner-{server_type}"
 
         python_install = " ".join(self.config.python_versions)
-        extras = ",".join(self.config.install_extras) if self.config.install_extras else "develop"
 
         commands = [
             "cloud-init status --wait || true",
@@ -148,10 +150,11 @@ class HetznerBenchmarkRunner:
             "export PATH=$HOME/.local/bin:$PATH",
             f"$HOME/.local/bin/uv python install {python_install}",
             f"git clone {self.config.benchmark_repo} /root/benchmarks",
-            "cd /root/benchmarks && $HOME/.local/bin/uv venv .venv --python 3.11",
-            "cd /root/benchmarks && $HOME/.local/bin/uv pip install --upgrade pip",
-            f"cd /root/benchmarks && $HOME/.local/bin/uv pip install -e '.[{extras}]'",
+            f"cd /root/benchmarks && git checkout {self.config.branches[0]}",
+            f"cd /root/benchmarks && $HOME/.local/bin/uv venv .venv --python {self.config.python_versions[0]}",
+            "cd /root/benchmarks && PATH=$HOME/.local/bin:$PATH make develop",
             f"cp /root/benchmarks/{self.config.asv_machine_json} ~/.asv-machine.json",
+            "cd /root/benchmarks && . .venv/bin/activate && make benchmark-init",
         ]
 
         for cmd in commands:
@@ -163,14 +166,10 @@ class HetznerBenchmarkRunner:
         """Run ASV benchmarks and return combined stdout+stderr."""
         logger.info("Running ASV benchmarks…")
 
-        if self.config.commit_range:
-            commit_spec = self.config.commit_range
-        else:
-            commit_spec = " ".join(f"{b}^!" for b in self.config.branches)
+        machine_arg = f"MACHINE={self._machine_name}" if self._machine_name else ""
 
-        machine_arg = f"--machine {self._machine_name}" if self._machine_name else ""
-        asv_config = f"/root/benchmarks/{self.config.asv_config}"
-        cmd = f"cd /root/benchmarks && .venv/bin/python -m asv run --config {asv_config} {machine_arg} --verbose {commit_spec}"
+        # Use Makefile target which handles --python=same and --set-commit-hash
+        cmd = f"cd /root/benchmarks && . .venv/bin/activate && make benchmark {machine_arg}"
         result = self._remote.run(cmd, check=False)
 
         asv_output = result.stdout + result.stderr

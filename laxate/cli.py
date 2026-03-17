@@ -35,17 +35,11 @@ def _benchmark_run(args: argparse.Namespace) -> int:
     cfg = load_config(overrides={"asv_config": args.config})
     config_path = cfg.resolve_path(cfg.asv_config)
 
-    cmd = ["python", "-m", "asv", "run", "--config", str(config_path), "--verbose"]
+    cmd = ["python", "-m", "asv", "run", "--python=same", "--config", str(config_path), "--verbose", "--set-commit-hash", "HEAD"]
     if args.quick:
         cmd.append("--quick")
     if args.machine:
         cmd.extend(["--machine", args.machine])
-    if args.python:
-        cmd.extend(["--python", args.python])
-    if args.commits:
-        cmd.extend(args.commits.split())
-    else:
-        cmd.append("HEAD^!")
 
     logger.info("Running: %s", " ".join(cmd))
     return subprocess.call(cmd)
@@ -108,8 +102,6 @@ def main() -> int:
     run_p.add_argument("--config", help="Path to asv.conf.json(c)")
     run_p.add_argument("--quick", "-q", action="store_true", help="Quick mode")
     run_p.add_argument("--machine", help="Machine name")
-    run_p.add_argument("--python", help="Python executable (e.g. 'same')")
-    run_p.add_argument("--commits", help="Commit spec (default: HEAD^!)")
     run_p.set_defaults(func=_benchmark_run)
 
     pub_p = bench_sub.add_parser("publish", help="Generate HTML report")

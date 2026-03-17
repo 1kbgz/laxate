@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "project": "laxate",
+    "project_url": "https://github.com/1kbgz/laxate",
+    "repo": "https://github.com/1kbgz/laxate.git",
+    "branches": ["main"],
+    "dvcs": "git",
+
+    "environment_type": "virtualenv",
+    "install_timeout": 600,
+
+    "pythons": ["3.11", "3.12", "3.13"],
+
+    "matrix": {},
+
+    "benchmark_dir": "benchmarks",
+    "env_dir": "../.asv/env",
+    "results_dir": "results",
+    "html_dir": "../docs/benchmarks",
+
+    "hash_length": 8
+}
