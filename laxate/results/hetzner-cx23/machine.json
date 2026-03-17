@@ -1,0 +1,9 @@
+{
+    "arch": "x86_64",
+    "cpu": "Intel/AMD (2 vCPU)",
+    "machine": "hetzner-cx23",
+    "num_cpu": "2",
+    "os": "Ubuntu 24.04",
+    "ram": "4GB",
+    "version": 1
+}
