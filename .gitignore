@@ -146,6 +146,7 @@ target
 outputs/
 multirun/
 
+<<<<<<< before updating
 # ASV benchmarks
 .asv/
 laxate/results/
@@ -154,3 +155,8 @@ docs/benchmarks/
 
 # Reference repos
 csp-benchmarks/
+=======
+# AI
+ROADMAP.md
+AGENTS.md
+>>>>>>> after updating
