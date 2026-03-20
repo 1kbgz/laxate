@@ -146,9 +146,12 @@ target
 outputs/
 multirun/
 
+# AI
+ROADMAP.md
+AGENTS.md
+
 # ASV benchmarks
 .asv/
-laxate/results/
 laxate/laxate/
 docs/benchmarks/
 
