@@ -149,7 +149,7 @@ multirun/
 # AI
 ROADMAP.md
 AGENTS.md
-<<<<<<< before updating
+.github/hooks/sdlc.json
 
 # ASV benchmarks
 .asv/
@@ -158,6 +158,3 @@ docs/benchmarks/
 
 # Reference repos
 csp-benchmarks/
-=======
-.github/hooks/sdlc.json
->>>>>>> after updating
