@@ -151,6 +151,7 @@ multirun/
 ROADMAP.md
 AGENTS.md
 .github/hooks/sdlc.json
+<<<<<<< before updating
 
 # ASV benchmarks
 .asv/
@@ -159,3 +160,6 @@ docs/benchmarks/
 
 # Reference repos
 csp-benchmarks/
+=======
+.superpowers
+>>>>>>> after updating
