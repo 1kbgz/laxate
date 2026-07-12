@@ -13,13 +13,8 @@ description = "Cloud-based ASV benchmark runner"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 version = "0.1.0"
-<<<<<<< before updating
-requires-python = ">=3.10"
-keywords = ["benchmarks", "asv", "hetzner", "performance"]
-=======
 requires-python = ">=3.11"
-keywords = []
->>>>>>> after updating
+keywords = ["benchmarks", "asv", "hetzner", "performance"]
 
 classifiers = [
     "Development Status :: 3 - Alpha",
