@@ -90,8 +90,7 @@ class DockerBenchmarkRunner(BenchmarkRunner):
         # Combine init commands + benchmark command into a single shell script
         script_parts: list[str] = []
         script_parts.append("set -e")
-        for cmd in self.init_commands:
-            script_parts.append(cmd)
+        script_parts.extend(self.init_commands)
         script_parts.append(shlex.join(asv_cmd_parts))
         shell_script = " && ".join(script_parts)
 

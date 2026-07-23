@@ -1,4 +1,4 @@
-from laxate import *  # noqa
+from laxate import *
 
 
 def test_all():

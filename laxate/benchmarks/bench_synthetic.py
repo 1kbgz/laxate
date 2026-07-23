@@ -7,13 +7,14 @@ the ASV benchmark infrastructure is working end-to-end.
 
 import json
 import math
+from typing import ClassVar
 
 
 class ConfigParseSuite:
     """Benchmarks for configuration parsing operations."""
 
-    params = ([10, 100, 1000],)
-    param_names = ["num_keys"]
+    params: ClassVar = ([10, 100, 1000],)
+    param_names: ClassVar = ["num_keys"]
 
     def setup(self, num_keys):
         self.data = {f"key_{i}": f"value_{i}" for i in range(num_keys)}
@@ -31,14 +32,14 @@ class ConfigParseSuite:
         """Time dictionary merge (config override pattern)."""
         base = {f"base_{i}": i for i in range(num_keys)}
         override = {f"key_{i}": f"override_{i}" for i in range(num_keys // 2)}
-        {**base, **override}
+        _ = {**base, **override}
 
 
 class ComputeSuite:
     """Simple compute benchmarks to track runner performance."""
 
-    params = ([100, 1000, 10000],)
-    param_names = ["iterations"]
+    params: ClassVar = ([100, 1000, 10000],)
+    param_names: ClassVar = ["iterations"]
 
     def time_math_operations(self, iterations):
         """Time basic math operations."""
