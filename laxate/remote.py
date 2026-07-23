@@ -100,7 +100,7 @@ class RemoteExecutor:
                     logger.info("SSH connection established")
                     return
                 last_error = f"exit code {result.returncode}: {result.stderr}"
-            except Exception as exc:
+            except Exception as exc:  # noqa: BLE001
                 last_error = str(exc)
 
             elapsed = int(time.time() - start)
