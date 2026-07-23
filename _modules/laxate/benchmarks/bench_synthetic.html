@@ -240,6 +240,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
 
 
 <div class="viewcode-block" id="ConfigParseSuite">
@@ -247,8 +248,8 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">ConfigParseSuite</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Benchmarks for configuration parsing operations.&quot;&quot;&quot;</span>
 
-    <span class="n">params</span> <span class="o">=</span> <span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],)</span>
-    <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;num_keys&quot;</span><span class="p">]</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">ClassVar</span> <span class="o">=</span> <span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],)</span>
+    <span class="n">param_names</span><span class="p">:</span> <span class="n">ClassVar</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;num_keys&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="ConfigParseSuite.setup">
 <a class="viewcode-back" href="../../../autoapi/laxate/benchmarks/bench_synthetic/index.html#laxate.benchmarks.bench_synthetic.ConfigParseSuite.setup">[docs]</a>
@@ -277,7 +278,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Time dictionary merge (config override pattern).&quot;&quot;&quot;</span>
         <span class="n">base</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;base_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_keys</span><span class="p">)}</span>
         <span class="n">override</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;key_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;override_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_keys</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)}</span>
-        <span class="p">{</span><span class="o">**</span><span class="n">base</span><span class="p">,</span> <span class="o">**</span><span class="n">override</span><span class="p">}</span></div>
+        <span class="n">_</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">base</span><span class="p">,</span> <span class="o">**</span><span class="n">override</span><span class="p">}</span></div>
 </div>
 
 
@@ -287,8 +288,8 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">ComputeSuite</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple compute benchmarks to track runner performance.&quot;&quot;&quot;</span>
 
-    <span class="n">params</span> <span class="o">=</span> <span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">],)</span>
-    <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;iterations&quot;</span><span class="p">]</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">ClassVar</span> <span class="o">=</span> <span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">],)</span>
+    <span class="n">param_names</span><span class="p">:</span> <span class="n">ClassVar</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;iterations&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="ComputeSuite.time_math_operations">
 <a class="viewcode-back" href="../../../autoapi/laxate/benchmarks/bench_synthetic/index.html#laxate.benchmarks.bench_synthetic.ComputeSuite.time_math_operations">[docs]</a>

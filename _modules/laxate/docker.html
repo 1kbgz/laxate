@@ -327,8 +327,7 @@
         <span class="c1"># Combine init commands + benchmark command into a single shell script</span>
         <span class="n">script_parts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">script_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;set -e&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_commands</span><span class="p">:</span>
-            <span class="n">script_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="n">script_parts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_commands</span><span class="p">)</span>
         <span class="n">script_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shlex</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">asv_cmd_parts</span><span class="p">))</span>
         <span class="n">shell_script</span> <span class="o">=</span> <span class="s2">&quot; &amp;&amp; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">script_parts</span><span class="p">)</span>
 
