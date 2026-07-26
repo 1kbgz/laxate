@@ -1,0 +1,232 @@
+laxate.config
+=============
+
+.. py:module:: laxate.config
+
+.. autoapi-nested-parse::
+
+   Configuration loading for laxate.
+
+   Configuration is read from `[tool.laxate]` in pyproject.toml, with CLI
+   arguments taking precedence over file-based config.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   laxate.config.logger
+   laxate.config.DEFAULT_ASV_CONFIG
+   laxate.config.DEFAULT_ASV_PUBLISH_CONFIG
+   laxate.config.DEFAULT_ASV_MACHINE_JSON
+   laxate.config.DEFAULT_SERVER_NAME_PREFIX
+   laxate.config.DEFAULT_PYTHON_VERSIONS
+   laxate.config.DEFAULT_CLOUD_INIT_PACKAGES
+   laxate.config.DEFAULT_DOCKER_IMAGE
+   laxate.config.DEFAULT_DOCKER_ENGINE
+   laxate.config.DEFAULT_DOCKER_NETWORK
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   laxate.config.LaxateConfig
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   laxate.config.load_pyproject_config
+   laxate.config.load_config
+   laxate.config.load_asv_config
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:data:: DEFAULT_ASV_CONFIG
+   :value: 'asv.conf.json'
+
+
+.. py:data:: DEFAULT_ASV_PUBLISH_CONFIG
+   :value: 'asv.publish.conf.json'
+
+
+.. py:data:: DEFAULT_ASV_MACHINE_JSON
+   :value: 'asv-machine.json'
+
+
+.. py:data:: DEFAULT_SERVER_NAME_PREFIX
+   :value: 'benchmark-runner'
+
+
+.. py:data:: DEFAULT_PYTHON_VERSIONS
+   :value: ['3.11', '3.12', '3.13']
+
+
+.. py:data:: DEFAULT_CLOUD_INIT_PACKAGES
+   :value: ['git', 'python3', 'python3-pip', 'python3-venv', 'build-essential']
+
+
+.. py:data:: DEFAULT_DOCKER_IMAGE
+   :value: 'python:3.11'
+
+
+.. py:data:: DEFAULT_DOCKER_ENGINE
+   :value: 'docker'
+
+
+.. py:data:: DEFAULT_DOCKER_NETWORK
+   :value: 'host'
+
+
+.. py:class:: LaxateConfig
+
+   Top-level configuration for laxate.
+
+
+   .. py:attribute:: asv_config
+      :type:  str
+      :value: 'asv.conf.json'
+
+
+
+   .. py:attribute:: asv_publish_config
+      :type:  str
+      :value: 'asv.publish.conf.json'
+
+
+
+   .. py:attribute:: asv_machine_json
+      :type:  str
+      :value: 'asv-machine.json'
+
+
+
+   .. py:attribute:: benchmark_repo
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: project_repo
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: server_name_prefix
+      :type:  str
+      :value: 'benchmark-runner'
+
+
+
+   .. py:attribute:: python_versions
+      :type:  list[str]
+      :value: ['3.11', '3.12', '3.13']
+
+
+
+   .. py:attribute:: cloud_init_packages
+      :type:  list[str]
+      :value: ['git', 'python3', 'python3-pip', 'python3-venv', 'build-essential']
+
+
+
+   .. py:attribute:: results_dir
+      :type:  str
+      :value: 'results'
+
+
+
+   .. py:attribute:: machine
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: quick
+      :type:  bool
+      :value: False
+
+
+
+   .. py:attribute:: docker_image
+      :type:  str
+      :value: 'python:3.11'
+
+
+
+   .. py:attribute:: docker_engine
+      :type:  str
+      :value: 'docker'
+
+
+
+   .. py:attribute:: docker_network
+      :type:  str
+      :value: 'host'
+
+
+
+   .. py:attribute:: docker_init_commands
+      :type:  list[str]
+      :value: []
+
+
+
+   .. py:attribute:: docker_mounts
+      :type:  list[str]
+      :value: []
+
+
+
+   .. py:attribute:: docker_container_name
+      :type:  str
+      :value: ''
+
+
+
+   .. py:attribute:: project_root
+      :type:  pathlib.Path
+
+
+   .. py:method:: resolve_path(path: str) -> pathlib.Path
+
+      Resolve a path relative to the project root.
+
+
+
+.. py:function:: load_pyproject_config(project_root: pathlib.Path | None = None) -> dict[str, Any]
+
+   Load the `[tool.laxate]` section from pyproject.toml.
+
+   :param project_root: Directory containing pyproject.toml. Defaults to cwd.
+
+   :returns: Dictionary of config values, empty if not found.
+
+
+.. py:function:: load_config(project_root: pathlib.Path | None = None, overrides: dict[str, Any] | None = None) -> LaxateConfig
+
+   Build a LaxateConfig from pyproject.toml + optional overrides.
+
+   CLI arguments should be passed as *overrides*; they take precedence
+   over values read from pyproject.toml.
+
+
+.. py:function:: load_asv_config(config_path: pathlib.Path) -> dict[str, Any]
+
+   Load and parse an ASV config file (JSON or JSONC).
+
+   Strips single-line ``//`` comments before parsing so that
+   ``asv.conf.jsonc`` files are supported.
+
+

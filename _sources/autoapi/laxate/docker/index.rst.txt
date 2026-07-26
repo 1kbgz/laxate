@@ -1,0 +1,112 @@
+laxate.docker
+=============
+
+.. py:module:: laxate.docker
+
+.. autoapi-nested-parse::
+
+   Docker/Podman benchmark runner — executes ASV inside a container.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   laxate.docker.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   laxate.docker.DockerBenchmarkRunner
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: DockerBenchmarkRunner(config: laxate.runner.BenchmarkConfig | None = None, laxate_config: laxate.config.LaxateConfig | None = None, *, image: str | None = None, engine: str | None = None, network: str | None = None, init_commands: list[str] | None = None, mounts: list[str] | None = None, container_name: str | None = None, quick: bool = False, machine: str | None = None)
+
+   Bases: :py:obj:`laxate.runner.BenchmarkRunner`
+
+
+   Run ASV benchmarks inside a Docker or Podman container.
+
+   The runner:
+   1. Starts a container from the chosen image
+   2. Mounts the project directory into the container
+   3. Runs optional initialisation commands
+   4. Executes ASV benchmarks
+   5. Results are written back via the bind mount
+
+
+   .. py:attribute:: laxate_config
+
+
+   .. py:attribute:: image
+      :value: 'python:3.11'
+
+
+
+   .. py:attribute:: engine
+      :value: 'docker'
+
+
+
+   .. py:attribute:: network
+      :value: 'host'
+
+
+
+   .. py:attribute:: init_commands
+
+
+   .. py:attribute:: mounts
+
+
+   .. py:attribute:: container_name
+      :value: 'laxate-bench'
+
+
+
+   .. py:attribute:: quick
+      :value: False
+
+
+
+   .. py:attribute:: machine
+      :value: None
+
+
+
+   .. py:method:: run_benchmarks() -> dict
+
+      Run ASV benchmarks inside a container.
+
+      :returns: Dictionary with ``returncode``.
+
+
+
+   .. py:method:: push_results_to_repo(github_token: str | None = None) -> None
+
+      Not applicable for docker runs — results are on host via bind mount.
+
+
+
+   .. py:method:: _build_run_command(project_root: str, shell_script: str) -> list[str]
+
+      Build the ``docker run`` / ``podman run`` command list.
+
+
+
+   .. py:method:: _remove_container() -> None
+
+      Remove the container (ignore errors if it doesn't exist).
+
+
+

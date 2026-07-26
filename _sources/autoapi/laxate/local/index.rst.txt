@@ -1,0 +1,67 @@
+laxate.local
+============
+
+.. py:module:: laxate.local
+
+.. autoapi-nested-parse::
+
+   Local benchmark runner — executes ASV in the current environment.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   laxate.local.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   laxate.local.LocalBenchmarkRunner
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: LocalBenchmarkRunner(config: laxate.runner.BenchmarkConfig | None = None, laxate_config: laxate.config.LaxateConfig | None = None, *, quick: bool = False, machine: str | None = None)
+
+   Bases: :py:obj:`laxate.runner.BenchmarkRunner`
+
+
+   Run ASV benchmarks locally using the current Python environment.
+
+
+   .. py:attribute:: laxate_config
+
+
+   .. py:attribute:: quick
+      :value: False
+
+
+
+   .. py:attribute:: machine
+      :value: None
+
+
+
+   .. py:method:: run_benchmarks() -> dict
+
+      Run ASV benchmarks locally.
+
+      :returns: Dictionary with ``returncode`` and ``asv_output``.
+
+
+
+   .. py:method:: push_results_to_repo(github_token: str | None = None) -> None
+
+      Not applicable for local runs — results are already on disk.
+
+
+

@@ -1,0 +1,20 @@
+laxate.benchmarks
+=================
+
+.. py:module:: laxate.benchmarks
+
+.. autoapi-nested-parse::
+
+   Synthetic benchmarks for laxate.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/laxate/benchmarks/bench_synthetic/index
+
+

@@ -1,0 +1,42 @@
+test_remote
+===========
+
+.. py:module:: test_remote
+
+.. autoapi-nested-parse::
+
+   Tests for laxate.remote module.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   test_remote.TestRemoteExecutor
+
+
+Module Contents
+---------------
+
+.. py:class:: TestRemoteExecutor
+
+   .. py:method:: test_init()
+
+
+   .. py:method:: test_init_defaults()
+
+
+   .. py:method:: test_run(mock_run)
+
+
+   .. py:method:: test_run_with_key(mock_run)
+
+
+   .. py:method:: test_upload(mock_run)
+
+
+   .. py:method:: test_download(mock_run)
+
+

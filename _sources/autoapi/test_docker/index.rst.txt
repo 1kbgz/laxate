@@ -1,0 +1,114 @@
+test_docker
+===========
+
+.. py:module:: test_docker
+
+.. autoapi-nested-parse::
+
+   Tests for laxate.docker module — DockerBenchmarkRunner.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   test_docker.TestDockerBenchmarkRunnerInit
+   test_docker.TestDockerBenchmarkRunnerBuildCommand
+   test_docker.TestDockerBenchmarkRunnerRun
+   test_docker.TestDockerBenchmarkRunnerPush
+   test_docker.TestDockerFromPyprojectConfig
+
+
+Module Contents
+---------------
+
+.. py:class:: TestDockerBenchmarkRunnerInit
+
+   .. py:method:: test_defaults(tmp_path)
+
+
+   .. py:method:: test_custom_image(tmp_path)
+
+
+   .. py:method:: test_podman_engine(tmp_path)
+
+
+   .. py:method:: test_custom_network(tmp_path)
+
+
+   .. py:method:: test_init_commands(tmp_path)
+
+
+   .. py:method:: test_mounts(tmp_path)
+
+
+   .. py:method:: test_container_name(tmp_path)
+
+
+   .. py:method:: test_quick_and_machine(tmp_path)
+
+
+   .. py:method:: test_reads_from_laxate_config(tmp_path)
+
+
+   .. py:method:: test_cli_overrides_config(tmp_path)
+
+
+.. py:class:: TestDockerBenchmarkRunnerBuildCommand
+
+   .. py:method:: test_basic_command(tmp_path)
+
+
+   .. py:method:: test_podman_engine(tmp_path)
+
+
+   .. py:method:: test_extra_mounts(tmp_path)
+
+
+   .. py:method:: test_custom_network(tmp_path)
+
+
+.. py:class:: TestDockerBenchmarkRunnerRun
+
+   .. py:method:: test_basic_run(mock_call, tmp_path)
+
+
+   .. py:method:: test_run_with_init_commands(mock_call, tmp_path)
+
+
+   .. py:method:: test_quick_mode(mock_call, tmp_path)
+
+
+   .. py:method:: test_machine_name(mock_call, tmp_path)
+
+
+   .. py:method:: test_nonzero_returncode(mock_call, tmp_path)
+
+
+   .. py:method:: test_container_removed_on_failure(mock_call, tmp_path)
+
+      Container is removed even when docker run fails.
+
+
+
+   .. py:method:: test_container_removed_on_exception(mock_call, tmp_path)
+
+      Container is removed even if docker run raises.
+
+
+
+.. py:class:: TestDockerBenchmarkRunnerPush
+
+   .. py:method:: test_push_is_noop(tmp_path)
+
+
+.. py:class:: TestDockerFromPyprojectConfig
+
+   Test that docker settings flow from pyproject.toml through LaxateConfig.
+
+
+   .. py:method:: test_docker_fields_loaded(tmp_path)
+
+

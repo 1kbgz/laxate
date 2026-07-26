@@ -1,0 +1,79 @@
+test_hetzner
+============
+
+.. py:module:: test_hetzner
+
+.. autoapi-nested-parse::
+
+   Tests for laxate.hetzner module.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   test_hetzner.HAS_HCLOUD
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   test_hetzner.TestServerConfig
+   test_hetzner.TestBenchmarkConfig
+   test_hetzner.TestHetznerServerManager
+   test_hetzner.TestHetznerBenchmarkRunner
+   test_hetzner.TestHetznerCLI
+
+
+Module Contents
+---------------
+
+.. py:data:: HAS_HCLOUD
+
+.. py:class:: TestServerConfig
+
+   .. py:method:: test_default_config()
+
+
+   .. py:method:: test_custom_config()
+
+
+.. py:class:: TestBenchmarkConfig
+
+   .. py:method:: test_default_config()
+
+
+   .. py:method:: test_custom_config()
+
+
+   .. py:method:: test_from_laxate_config()
+
+
+.. py:class:: TestHetznerServerManager
+
+   .. py:method:: test_init(mock_client_class)
+
+
+   .. py:method:: test_get_cloud_init_script(mock_client_class)
+
+
+.. py:class:: TestHetznerBenchmarkRunner
+
+   .. py:method:: test_init()
+
+
+   .. py:method:: test_init_with_config()
+
+
+.. py:class:: TestHetznerCLI
+
+   .. py:method:: test_cli_module_importable()
+
+
+   .. py:method:: test_run_benchmarks_no_token(mock_runner, mock_manager)
+
+
