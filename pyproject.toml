@@ -12,7 +12,7 @@ authors = [
 description = "Cloud benchmark orchestration for Benched"
 readme = "README.md"
 license = { text = "Apache-2.0" }
-version = "0.1.0"
+version = "0.2.0"
 requires-python = ">=3.11"
 keywords = ["benchmarks", "benched", "hetzner", "performance"]
 
@@ -63,7 +63,7 @@ Repository = "https://github.com/1kbgz/laxate"
 Homepage = "https://github.com/1kbgz/laxate"
 
 [tool.bumpversion]
-current_version = "0.1.0"
+current_version = "0.2.0"
 commit = true
 tag = true
 commit_args = "-s"
