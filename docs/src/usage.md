@@ -1,264 +1,171 @@
-# Usage
+# CLI and configuration reference
 
-laxate is a tool for running [ASV (Airspeed Velocity)](https://asv.readthedocs.io/) benchmarks locally, in containers, or on cloud servers. It wraps ASV with a unified CLI and supports persistent configuration via `pyproject.toml`.
+Laxate invokes Benched in a prepared local, container, or Hetzner Cloud environment.
+Configuration is loaded from `[tool.laxate]` in `pyproject.toml`. Command-line values
+override configured scalar values. Repeated container initialization and mount options
+append to configured lists.
 
-## Installation
+## `laxate run local`
 
-```bash
-pip install laxate
+Runs `python -m benched run` in the current Python environment.
 
-# For Hetzner Cloud support:
-pip install "laxate[hetzner]"
-```
-
-## Quick start
-
-```bash
-# Run benchmarks locally
-laxate run local
-
-# Run benchmarks in a Docker container
-laxate run docker --image python:3.12
-
-# Generate and view an HTML report
-laxate publish
-laxate preview
-```
-
-## CLI reference
-
-### `laxate run local`
-
-Run ASV benchmarks in the current Python environment.
-
-```bash
+```text
 laxate run local [--config PATH] [--quick] [--machine NAME]
 ```
 
-| Flag | pyproject.toml key | Description |
-| --- | --- | --- |
-| `--config` | `asv_config` | Path to `asv.conf.json` (relative to project root) |
-| `--quick` / `-q` | `quick` | Run in ASV quick mode (fewer iterations) |
-| `--machine` | `machine` | Machine name recorded in results |
+| Option           | Configuration key | Description                           |
+| ---------------- | ----------------- | ------------------------------------- |
+| `--config`       | `benched_config`  | Path to target `pyproject.toml`       |
+| `--quick`, `-q`  | `quick`           | Enables Benched quick mode            |
+| `--machine NAME` | `machine`         | Stable machine identifier for the run |
 
-### `laxate run docker`
+## `laxate run docker`
 
-Run ASV benchmarks inside a Docker or Podman container. The project directory is bind-mounted into the container so results are written back to the host.
+Runs Benched in a Docker or Podman container. The project root is bind-mounted at the
+same absolute path and used as container working directory.
 
-```bash
-laxate run docker [--image IMAGE] [--engine ENGINE] [--network NET]
-                  [--init-command CMD ...] [--mount MOUNT ...]
-                  [--container-name NAME]
-                  [--config PATH] [--quick] [--machine NAME]
+```text
+laxate run docker [--image IMAGE] [--engine {docker,podman}] [--network NETWORK]
+                  [--init-command COMMAND] [--mount MOUNT]
+                  [--container-name NAME] [--config PATH]
+                  [--quick] [--machine NAME]
 ```
 
-| Flag | pyproject.toml key | Description |
-| --- | --- | --- |
-| `--image` | `docker_image` | Container image (default: `python:3.11`) |
-| `--engine` | `docker_engine` | `docker` or `podman` (default: `docker`) |
-| `--network` | `docker_network` | Docker network mode (default: `host`) |
-| `--init-command` | `docker_init_commands` | Shell command to run before benchmarks (repeatable). CLI values **append** to pyproject.toml list |
-| `--mount` | `docker_mounts` | Extra bind mount in `-v` format, e.g. `/data:/data:ro` (repeatable). CLI values **append** to pyproject.toml list |
-| `--container-name` | `docker_container_name` | Container name (default: `laxate-bench`) |
-| `--config` | `asv_config` | Path to `asv.conf.json` |
-| `--quick` / `-q` | `quick` | Quick mode |
-| `--machine` | `machine` | Machine name |
+| Option                   | Configuration key       | Description                                      |
+| ------------------------ | ----------------------- | ------------------------------------------------ |
+| `--image IMAGE`          | `docker_image`          | Container image                                  |
+| `--engine ENGINE`        | `docker_engine`         | `docker` or `podman`                             |
+| `--network NETWORK`      | `docker_network`        | Container network mode                           |
+| `--init-command COMMAND` | `docker_init_commands`  | Repeatable shell command executed before Benched |
+| `--mount MOUNT`          | `docker_mounts`         | Repeatable bind mount in Docker `-v` format      |
+| `--container-name NAME`  | `docker_container_name` | Container name                                   |
+| `--config PATH`          | `benched_config`        | Path to target `pyproject.toml`                  |
+| `--quick`, `-q`          | `quick`                 | Enables Benched quick mode                       |
+| `--machine NAME`         | `machine`               | Stable machine identifier                        |
 
-Example with init commands and Podman:
+The default image is `python:3.11`. The default engine is `docker`, network is
+`host`, and container name is `laxate-bench`. Container removal is attempted after
+successful, failed, or interrupted execution.
 
-```bash
-laxate run docker \
-  --engine podman \
-  --image python:3.13 \
-  --init-command "pip install uv" \
-  --init-command "uv pip install -e .[develop]" \
-  --mount /shared-cache:/cache:ro \
-  --quick
-```
+## `laxate run hetzner`
 
-### `laxate run hetzner`
+Creates or reuses a Hetzner Cloud server, clones the benchmark repository, prepares a
+Python environment, invokes `make benchmark`, and downloads the configured results
+directory.
 
-Run ASV benchmarks on a Hetzner Cloud server. Requires the `hetzner` extra (`pip install "laxate[hetzner]"`).
-
-```bash
-laxate run hetzner [--token TOKEN] [--server-type TYPE] [--ssh-key PATH]
-                   [--ssh-key-name NAME] [--branches BRANCHES]
-                   [--commits RANGE] [--reuse] [--keep-server]
-                   [--push] [--github-token TOKEN]
+```text
+laxate run hetzner [--token TOKEN] [--server-name NAME] [--server-type TYPE]
+                   [--ssh-key PATH] [--ssh-key-name NAME] [--branch BRANCH]
+                   [--python-version VERSION]
+                   [--reuse] [--keep-server] [--push] [--github-token TOKEN]
                    [--benchmark-repo URL] [--project-repo URL]
-                   [--asv-config PATH] [--asv-machine-json PATH]
-                   [--server-name NAME]
+                   [--benched-config PATH]
 ```
 
-| Flag | pyproject.toml key | Description |
-| --- | --- | --- |
-| `--token` | — | Hetzner Cloud API token (or `HCLOUD_TOKEN` env var) |
-| `--server-type` | — | Hetzner server type, e.g. `cx23`, `ccx33` |
-| `--server-name` | `server_name_prefix` | Server name |
-| `--ssh-key` | — | Path to SSH private key |
-| `--ssh-key-name` | — | Name of SSH key registered in Hetzner |
-| `--branches` | — | Comma-separated branches to benchmark (default: `main`) |
-| `--commits` | — | Commit range, e.g. `HEAD~5..HEAD` |
-| `--reuse` | — | Reuse an existing server instead of creating a new one |
-| `--keep-server` | — | Don't delete the server after benchmarks |
-| `--push` | — | Push results back to the repository |
-| `--github-token` | — | GitHub token for pushing (or `GITHUB_TOKEN` env var) |
-| `--benchmark-repo` | `benchmark_repo` | URL of the benchmark repository |
-| `--project-repo` | `project_repo` | URL of the project repository |
-| `--asv-config` | `asv_config` | ASV config path (relative to repo root) |
-| `--asv-machine-json` | `asv_machine_json` | Path to `asv-machine.json` |
+| Option                  | Configuration key    | Description                                            |
+| ----------------------- | -------------------- | ------------------------------------------------------ |
+| `--token TOKEN`         | —                    | Hetzner token; defaults to `HCLOUD_TOKEN`              |
+| `--server-name NAME`    | `server_name_prefix` | Server name                                            |
+| `--server-type TYPE`    | —                    | Hetzner server type                                    |
+| `--ssh-key PATH`        | —                    | SSH private-key path                                   |
+| `--ssh-key-name NAME`   | —                    | SSH public-key name registered with Hetzner            |
+| `--branch BRANCH`       | `branch`             | Benchmark-suite branch                                 |
+| `--python-version VER`  | `python_version`     | Python version used for the benchmark environment      |
+| `--reuse`               | —                    | Reuses a matching existing server                      |
+| `--keep-server`         | —                    | Retains server after command completion                |
+| `--push`                | —                    | Commits and pushes collected result documents          |
+| `--github-token TOKEN`  | —                    | Push token; defaults to `GITHUB_TOKEN`                 |
+| `--benchmark-repo URL`  | `benchmark_repo`     | Benchmark-suite repository URL                         |
+| `--project-repo URL`    | `project_repo`       | Code-under-test repository metadata                    |
+| `--benched-config PATH` | `benched_config`     | Target `pyproject.toml` path within benchmark checkout |
 
-### `laxate publish`
+The selected Python version creates the active virtual environment. Machine IDs use
+`hetzner-{server_type}`.
 
-Generate an HTML report from ASV results.
+## `laxate publish`
 
-```bash
-laxate publish [--config PATH]
+Generates a static Benched HTML report.
+
+```text
+laxate publish [--config PATH] [--output DIRECTORY]
 ```
 
-| Flag | pyproject.toml key | Description |
-| --- | --- | --- |
-| `--config` | `asv_publish_config` | Path to the publish config (default: `asv.publish.conf.json`) |
+| Option               | Configuration key | Description                    |
+| -------------------- | ----------------- | ------------------------------ |
+| `--config PATH`      | `benched_config`  | Target `pyproject.toml`        |
+| `--output DIRECTORY` | `report_output`   | Static report output directory |
 
-### `laxate preview`
+## `laxate preview`
 
-Start a local HTTP server to preview the HTML report.
+Serves an existing static report on loopback and opens a browser.
 
-```bash
-laxate preview [--config PATH]
+```text
+laxate preview [--output DIRECTORY]
 ```
 
-| Flag | pyproject.toml key | Description |
-| --- | --- | --- |
-| `--config` | `asv_publish_config` | Path to the publish config |
+`--output` overrides `report_output`.
 
-### `laxate compare`
+## `laxate compare`
 
-Compare benchmark results between two commits.
+Compares two Benched run selectors. Defaults are `previous` and `latest`.
 
-```bash
+```text
 laxate compare [--config PATH] [BASE] [HEAD]
 ```
 
-| Flag | pyproject.toml key | Description |
-| --- | --- | --- |
-| `--config` | `asv_config` | Path to `asv.conf.json` |
-| `BASE` | — | Base commit hash or ref |
-| `HEAD` | — | Head commit hash or ref |
+`--config` overrides `benched_config`. `BASE` and `HEAD` accept Benched run IDs,
+revisions, versions, branches, labels, `previous`, or `latest`.
 
-### `laxate cleanup hetzner`
+## `laxate cleanup hetzner`
 
-Remove leftover Hetzner Cloud servers.
+Deletes Hetzner servers whose names start with the configured prefix.
 
-```bash
+```text
 laxate cleanup hetzner [--token TOKEN] [--prefix PREFIX]
 ```
 
-| Flag | pyproject.toml key | Description |
-| --- | --- | --- |
-| `--token` | — | Hetzner Cloud API token (or `HCLOUD_TOKEN` env var) |
-| `--prefix` | `server_name_prefix` | Only delete servers whose names start with this prefix |
+`--token` defaults to `HCLOUD_TOKEN`. `--prefix` defaults to
+`server_name_prefix`.
 
-## Configuration via `pyproject.toml`
-
-All persistent settings live under the `[tool.laxate]` table. CLI flags override these values. List fields (`docker_init_commands`, `docker_mounts`) are **appended** to when using CLI flags.
+## `[tool.laxate]`
 
 ```toml
 [tool.laxate]
-# ASV paths (relative to project root)
-asv_config = "laxate/asv.conf.json"
-asv_publish_config = "laxate/asv.publish.conf.json"
-asv_machine_json = "laxate/asv-machine.json"
-results_dir = "laxate/results"
-
-# Repository URLs (used by Hetzner runner for cloning)
-benchmark_repo = "https://github.com/myorg/myrepo.git"
-project_repo = "https://github.com/myorg/myrepo.git"
-
-# Hetzner
+benched_config = "pyproject.toml"
+report_output = "docs/benchmarks"
+results_dir = "benched-results"
+benchmark_repo = "https://github.com/example/benchmarks.git"
+project_repo = "https://github.com/example/subject.git"
 server_name_prefix = "benchmark-runner"
-python_versions = ["3.11", "3.12", "3.13"]
+branch = "main"
+python_version = "3.11"
 cloud_init_packages = ["git", "python3", "python3-pip", "python3-venv", "build-essential"]
-
-# Local / shared
-machine = "my-machine"
+machine = ""
 quick = false
-
-# Docker / Podman
-docker_image = "python:3.12"
-docker_engine = "docker"          # or "podman"
-docker_network = "host"           # or "bridge", "none", etc.
-docker_container_name = "laxate-bench"
-docker_init_commands = [
-    "pip install uv",
-    "uv pip install -e .[develop]",
-]
-docker_mounts = [
-    "/shared/cache:/cache:ro",
-]
+docker_image = "python:3.11"
+docker_engine = "docker"
+docker_network = "host"
+docker_container_name = ""
+docker_init_commands = []
+docker_mounts = []
 ```
 
-### Full configuration key reference
-
-| Key | Type | Default | Description |
-| --- | --- | --- | --- |
-| `asv_config` | string | `"asv.conf.json"` | Path to ASV run config |
-| `asv_publish_config` | string | `"asv.publish.conf.json"` | Path to ASV publish config |
-| `asv_machine_json` | string | `"asv-machine.json"` | Path to ASV machine definition |
-| `results_dir` | string | `"results"` | Directory for benchmark results |
-| `benchmark_repo` | string | `""` | Benchmark repository URL |
-| `project_repo` | string | `""` | Project repository URL |
-| `server_name_prefix` | string | `"benchmark-runner"` | Hetzner server name prefix |
-| `python_versions` | list[string] | `["3.11", "3.12", "3.13"]` | Python versions for remote runners |
-| `cloud_init_packages` | list[string] | `["git", ...]` | Packages installed via cloud-init on Hetzner |
-| `machine` | string | `""` | Machine name for ASV results |
-| `quick` | bool | `false` | Enable ASV quick mode |
-| `docker_image` | string | `"python:3.11"` | Docker/Podman image |
-| `docker_engine` | string | `"docker"` | Container engine (`docker` or `podman`) |
-| `docker_network` | string | `"host"` | Container network mode |
-| `docker_container_name` | string | `""` | Container name |
-| `docker_init_commands` | list[string] | `[]` | Commands to run inside container before benchmarks |
-| `docker_mounts` | list[string] | `[]` | Extra bind mounts in `-v` format |
-
-## GitHub Actions
-
-Example workflow using the laxate CLI:
-
-```yaml
-name: Benchmarks
-on:
-  workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ['benchmarks/**']
-
-jobs:
-  benchmark:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
-        with:
-          python-version: '3.11'
-
-      - run: pip install -e ".[develop]"
-
-      - name: Configure ASV
-        run: |
-          cp asv-machine.json ~/.asv-machine.json
-          python -m asv machine --config asv.conf.json --verbose --yes
-
-      - name: Run benchmarks
-        run: laxate run local --machine github-actions
-
-      - name: Publish report
-        run: laxate publish
-
-      - uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/benchmarks
-```
+| Key                     | Type          | Default              |
+| ----------------------- | ------------- | -------------------- |
+| `benched_config`        | string        | `"pyproject.toml"`   |
+| `report_output`         | string        | `"docs/benchmarks"`  |
+| `results_dir`           | string        | `"results"`          |
+| `benchmark_repo`        | string        | `""`                 |
+| `project_repo`          | string        | `""`                 |
+| `server_name_prefix`    | string        | `"benchmark-runner"` |
+| `branch`                | string        | `"main"`             |
+| `python_version`        | string        | `"3.11"`             |
+| `cloud_init_packages`   | array[string] | system package list  |
+| `machine`               | string        | `""`                 |
+| `quick`                 | boolean       | `false`              |
+| `docker_image`          | string        | `"python:3.11"`      |
+| `docker_engine`         | string        | `"docker"`           |
+| `docker_network`        | string        | `"host"`             |
+| `docker_container_name` | string        | `""`                 |
+| `docker_init_commands`  | array[string] | `[]`                 |
+| `docker_mounts`         | array[string] | `[]`                 |

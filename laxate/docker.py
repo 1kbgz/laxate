@@ -1,4 +1,4 @@
-"""Docker/Podman benchmark runner — executes ASV inside a container."""
+"""Docker/Podman benchmark runner — executes Benched inside a container."""
 
 from __future__ import annotations
 
@@ -19,13 +19,13 @@ logger = logging.getLogger(__name__)
 
 
 class DockerBenchmarkRunner(BenchmarkRunner):
-    """Run ASV benchmarks inside a Docker or Podman container.
+    """Run Benched benchmarks inside a Docker or Podman container.
 
     The runner:
     1. Starts a container from the chosen image
     2. Mounts the project directory into the container
     3. Runs optional initialisation commands
-    4. Executes ASV benchmarks
+    4. Executes Benched benchmarks
     5. Results are written back via the bind mount
     """
 
@@ -61,37 +61,33 @@ class DockerBenchmarkRunner(BenchmarkRunner):
     # ------------------------------------------------------------------ #
 
     def run_benchmarks(self) -> dict:
-        """Run ASV benchmarks inside a container.
+        """Run Benched benchmarks inside a container.
 
         Returns:
             Dictionary with ``returncode``.
         """
         project_root = str(self.laxate_config.project_root)
-        config_path = self.laxate_config.resolve_path(self.laxate_config.asv_config)
+        config_path = self.laxate_config.resolve_path(self.laxate_config.benched_config)
 
         # Build the in-container benchmark command
-        asv_cmd_parts = [
+        benched_cmd_parts = [
             "python",
             "-m",
-            "asv",
+            "benched",
             "run",
-            "--python=same",
-            "--config",
+            "--pyproject",
             str(config_path),
-            "--verbose",
-            "--set-commit-hash",
-            "HEAD",
         ]
         if self.quick:
-            asv_cmd_parts.append("--quick")
+            benched_cmd_parts.append("--quick")
         if self.machine:
-            asv_cmd_parts.extend(["--machine", self.machine])
+            benched_cmd_parts.extend(["--machine", self.machine])
 
         # Combine init commands + benchmark command into a single shell script
         script_parts: list[str] = []
         script_parts.append("set -e")
         script_parts.extend(self.init_commands)
-        script_parts.append(shlex.join(asv_cmd_parts))
+        script_parts.append(shlex.join(benched_cmd_parts))
         shell_script = " && ".join(script_parts)
 
         # Assemble docker/podman run command

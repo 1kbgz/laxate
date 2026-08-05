@@ -1,9 +1,10 @@
-"""Local benchmark runner — executes ASV in the current environment."""
+"""Local benchmark runner — executes Benched in the current environment."""
 
 from __future__ import annotations
 
 import logging
 import subprocess
+import sys
 
 from .config import LaxateConfig, load_config
 from .runner import BenchmarkConfig, BenchmarkRunner
@@ -12,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class LocalBenchmarkRunner(BenchmarkRunner):
-    """Run ASV benchmarks locally using the current Python environment."""
+    """Run Benched benchmarks locally using the current Python environment."""
 
     def __init__(
         self,
@@ -28,24 +29,20 @@ class LocalBenchmarkRunner(BenchmarkRunner):
         self.machine = machine
 
     def run_benchmarks(self) -> dict:
-        """Run ASV benchmarks locally.
+        """Run Benched benchmarks locally.
 
         Returns:
-            Dictionary with ``returncode`` and ``asv_output``.
+            Dictionary containing ``returncode``.
         """
-        config_path = self.laxate_config.resolve_path(self.laxate_config.asv_config)
+        config_path = self.laxate_config.resolve_path(self.laxate_config.benched_config)
 
         cmd = [
-            "python",
+            sys.executable,
             "-m",
-            "asv",
+            "benched",
             "run",
-            "--python=same",
-            "--config",
+            "--pyproject",
             str(config_path),
-            "--verbose",
-            "--set-commit-hash",
-            "HEAD",
         ]
         if self.quick:
             cmd.append("--quick")

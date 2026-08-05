@@ -82,7 +82,7 @@ class TestDockerBenchmarkRunnerInit:
 
 class TestDockerBenchmarkRunnerBuildCommand:
     def test_basic_command(self, tmp_path):
-        lcfg = LaxateConfig(project_root=tmp_path, asv_config="asv.conf.json")
+        lcfg = LaxateConfig(project_root=tmp_path)
         runner = DockerBenchmarkRunner(laxate_config=lcfg)
         cmd = runner._build_run_command(str(tmp_path), "echo hello")
 
@@ -136,7 +136,7 @@ class TestDockerBenchmarkRunnerRun:
     def test_basic_run(self, mock_call, tmp_path):
         # First call: docker run → 0, second call: docker rm → 0
         mock_call.side_effect = [0, 0]
-        lcfg = LaxateConfig(project_root=tmp_path, asv_config="asv.conf.json")
+        lcfg = LaxateConfig(project_root=tmp_path)
         runner = DockerBenchmarkRunner(laxate_config=lcfg)
         result = runner.run_benchmarks()
 
@@ -152,7 +152,7 @@ class TestDockerBenchmarkRunnerRun:
     @patch("laxate.docker.subprocess.call")
     def test_run_with_init_commands(self, mock_call, tmp_path):
         mock_call.side_effect = [0, 0]
-        lcfg = LaxateConfig(project_root=tmp_path, asv_config="asv.conf.json")
+        lcfg = LaxateConfig(project_root=tmp_path)
         runner = DockerBenchmarkRunner(
             laxate_config=lcfg,
             init_commands=["pip install uv", "uv pip install -e ."],
@@ -163,12 +163,13 @@ class TestDockerBenchmarkRunnerRun:
         shell_script = run_cmd[-1]  # last arg is the bash -c script
         assert "pip install uv" in shell_script
         assert "uv pip install -e ." in shell_script
-        assert "asv" in shell_script
+        assert "benched" in shell_script
+        assert "--pyproject" in shell_script
 
     @patch("laxate.docker.subprocess.call")
     def test_quick_mode(self, mock_call, tmp_path):
         mock_call.side_effect = [0, 0]
-        lcfg = LaxateConfig(project_root=tmp_path, asv_config="asv.conf.json")
+        lcfg = LaxateConfig(project_root=tmp_path)
         runner = DockerBenchmarkRunner(laxate_config=lcfg, quick=True)
         runner.run_benchmarks()
 
@@ -178,7 +179,7 @@ class TestDockerBenchmarkRunnerRun:
     @patch("laxate.docker.subprocess.call")
     def test_machine_name(self, mock_call, tmp_path):
         mock_call.side_effect = [0, 0]
-        lcfg = LaxateConfig(project_root=tmp_path, asv_config="asv.conf.json")
+        lcfg = LaxateConfig(project_root=tmp_path)
         runner = DockerBenchmarkRunner(laxate_config=lcfg, machine="docker-ci")
         runner.run_benchmarks()
 
@@ -189,7 +190,7 @@ class TestDockerBenchmarkRunnerRun:
     @patch("laxate.docker.subprocess.call")
     def test_nonzero_returncode(self, mock_call, tmp_path):
         mock_call.side_effect = [2, 0]
-        lcfg = LaxateConfig(project_root=tmp_path, asv_config="asv.conf.json")
+        lcfg = LaxateConfig(project_root=tmp_path)
         runner = DockerBenchmarkRunner(laxate_config=lcfg)
         result = runner.run_benchmarks()
         assert result == {"returncode": 2}
@@ -198,7 +199,7 @@ class TestDockerBenchmarkRunnerRun:
     def test_container_removed_on_failure(self, mock_call, tmp_path):
         """Container is removed even when docker run fails."""
         mock_call.side_effect = [1, 0]
-        lcfg = LaxateConfig(project_root=tmp_path, asv_config="asv.conf.json")
+        lcfg = LaxateConfig(project_root=tmp_path)
         runner = DockerBenchmarkRunner(laxate_config=lcfg)
         runner.run_benchmarks()
 
@@ -210,7 +211,7 @@ class TestDockerBenchmarkRunnerRun:
     def test_container_removed_on_exception(self, mock_call, tmp_path):
         """Container is removed even if docker run raises."""
         mock_call.side_effect = [OSError("docker not found"), 0]
-        lcfg = LaxateConfig(project_root=tmp_path, asv_config="asv.conf.json")
+        lcfg = LaxateConfig(project_root=tmp_path)
         runner = DockerBenchmarkRunner(laxate_config=lcfg)
         try:
             runner.run_benchmarks()

@@ -6,7 +6,7 @@ import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 
-from .config import DEFAULT_PYTHON_VERSIONS, LaxateConfig
+from .config import DEFAULT_PYTHON_VERSION, LaxateConfig
 
 logger = logging.getLogger(__name__)
 
@@ -17,31 +17,27 @@ class BenchmarkConfig:
 
     benchmark_repo: str = ""
     project_repo: str = ""
-    branches: list[str] = field(default_factory=lambda: ["main"])
-    python_versions: list[str] = field(default_factory=lambda: list(DEFAULT_PYTHON_VERSIONS))
-    commit_range: str | None = None  # e.g. "HEAD~5..HEAD"
+    branch: str = "main"
+    python_version: str = DEFAULT_PYTHON_VERSION
 
     # Paths inside the benchmark repo (relative to repo root)
-    asv_config: str = "asv.conf.json"
-    asv_machine_json: str = "asv-machine.json"
+    benched_config: str = "pyproject.toml"
     results_dir: str = "results"
 
     # Extra install groups (e.g. "develop", "hetzner")
     install_extras: list[str] = field(default_factory=lambda: ["develop"])
 
     @classmethod
-    def from_laxate_config(cls, cfg: LaxateConfig, **overrides) -> BenchmarkConfig:
+    def from_laxate_config(cls, cfg: LaxateConfig) -> BenchmarkConfig:
         """Build a BenchmarkConfig from the top-level LaxateConfig."""
-        vals = {
-            "benchmark_repo": cfg.benchmark_repo,
-            "project_repo": cfg.project_repo,
-            "python_versions": cfg.python_versions,
-            "asv_config": cfg.asv_config,
-            "asv_machine_json": cfg.asv_machine_json,
-            "results_dir": cfg.results_dir,
-        }
-        vals.update({k: v for k, v in overrides.items() if v is not None})
-        return cls(**{k: v for k, v in vals.items() if k in cls.__dataclass_fields__})
+        return cls(
+            benchmark_repo=cfg.benchmark_repo,
+            project_repo=cfg.project_repo,
+            branch=cfg.branch,
+            python_version=cfg.python_version,
+            benched_config=cfg.benched_config,
+            results_dir=cfg.results_dir,
+        )
 
 
 class BenchmarkRunner(ABC):

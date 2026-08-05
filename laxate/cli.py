@@ -10,7 +10,7 @@ Usage::
     laxate run hetzner --token $HCLOUD_TOKEN      # run on Hetzner
     laxate publish                                # generate HTML report
     laxate preview                                # preview report locally
-    laxate compare [base] [head]                  # compare two commits
+    laxate compare [base] [head]                  # compare two saved runs
     laxate cleanup hetzner --token $HCLOUD_TOKEN  # cleanup servers
 """
 
@@ -36,11 +36,11 @@ logger = logging.getLogger(__name__)
 
 
 def _run_local(args: argparse.Namespace) -> int:
-    """Run ASV benchmarks locally."""
+    """Run Benched benchmarks locally."""
     from .local import LocalBenchmarkRunner
     from .runner import BenchmarkConfig
 
-    cfg = load_config(overrides={"asv_config": args.config, "machine": args.machine, "quick": args.quick or None})
+    cfg = load_config(overrides={"benched_config": args.config, "machine": args.machine, "quick": args.quick or None})
     benchmark_config = BenchmarkConfig.from_laxate_config(cfg)
 
     runner = LocalBenchmarkRunner(
@@ -54,13 +54,13 @@ def _run_local(args: argparse.Namespace) -> int:
 
 
 def _run_docker(args: argparse.Namespace) -> int:
-    """Run ASV benchmarks inside a Docker/Podman container."""
+    """Run Benched benchmarks inside a Docker/Podman container."""
     from .docker import DockerBenchmarkRunner
     from .runner import BenchmarkConfig
 
     cfg = load_config(
         overrides={
-            "asv_config": args.config,
+            "benched_config": args.config,
             "docker_image": args.image,
             "docker_engine": args.engine,
             "docker_network": args.network,
@@ -108,33 +108,32 @@ def _run_hetzner(args: argparse.Namespace) -> int:
 
 
 def _publish(args: argparse.Namespace) -> int:
-    """Generate HTML report from ASV results."""
-    cfg = load_config(overrides={"asv_publish_config": args.config})
-    config_path = cfg.resolve_path(cfg.asv_publish_config)
+    """Generate an HTML report from Benched results."""
+    cfg = load_config(overrides={"benched_config": args.config, "report_output": args.output})
+    config_path = cfg.resolve_path(cfg.benched_config)
+    output_path = cfg.resolve_path(cfg.report_output)
 
-    cmd = ["python", "-m", "asv", "publish", "--config", str(config_path)]
+    cmd = [sys.executable, "-m", "benched", "report", "--pyproject", str(config_path), "--format", "html", "--output", str(output_path)]
     logger.info("Running: %s", " ".join(cmd))
     return subprocess.call(cmd)
 
 
 def _preview(args: argparse.Namespace) -> int:
-    """Launch a local HTTP server to view ASV results."""
-    cfg = load_config(overrides={"asv_publish_config": args.config})
-    config_path = cfg.resolve_path(cfg.asv_publish_config)
+    """Launch a local HTTP server to view a Benched report."""
+    cfg = load_config(overrides={"report_output": args.output})
+    output_path = cfg.resolve_path(cfg.report_output)
 
-    cmd = ["python", "-m", "asv", "preview", "--config", str(config_path)]
+    cmd = [sys.executable, "-m", "benched", "serve", str(output_path), "--open"]
     logger.info("Running: %s", " ".join(cmd))
     return subprocess.call(cmd)
 
 
 def _compare(args: argparse.Namespace) -> int:
-    """Compare benchmarks between two commits."""
-    cfg = load_config(overrides={"asv_config": args.config})
-    config_path = cfg.resolve_path(cfg.asv_config)
+    """Compare two saved benchmark runs."""
+    cfg = load_config(overrides={"benched_config": args.config})
+    config_path = cfg.resolve_path(cfg.benched_config)
 
-    cmd = ["python", "-m", "asv", "compare", "--config", str(config_path)]
-    if args.base and args.head:
-        cmd.extend([args.base, args.head])
+    cmd = [sys.executable, "-m", "benched", "compare", args.base, args.head, "--pyproject", str(config_path)]
     logger.info("Running: %s", " ".join(cmd))
     return subprocess.call(cmd)
 
@@ -158,22 +157,21 @@ def _add_hetzner_run_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--server-type", default="cx23", help="Hetzner server type")
     parser.add_argument("--ssh-key", help="Path to SSH private key")
     parser.add_argument("--ssh-key-name", help="Name of SSH key in Hetzner")
-    parser.add_argument("--branches", default="main", help="Comma-separated branches")
-    parser.add_argument("--commits", help="Commit range (e.g. HEAD~5..HEAD)")
+    parser.add_argument("--branch", help="Benchmark-suite branch")
+    parser.add_argument("--python-version", help="Python version")
     parser.add_argument("--reuse", action="store_true", help="Reuse existing server")
     parser.add_argument("--keep-server", action="store_true", help="Keep server after benchmarks")
     parser.add_argument("--push", action="store_true", help="Push results to repository")
     parser.add_argument("--github-token", help="GitHub token for pushing results")
     parser.add_argument("--benchmark-repo", help="Override benchmark_repo URL")
     parser.add_argument("--project-repo", help="Override project_repo URL")
-    parser.add_argument("--asv-config", help="Override asv config path (relative to repo)")
-    parser.add_argument("--asv-machine-json", help="Override asv-machine.json path (relative to repo)")
+    parser.add_argument("--benched-config", help="Override pyproject.toml path (relative to repo)")
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
         prog="laxate",
-        description="laxate — cloud-based ASV benchmark runner",
+        description="laxate — cloud benchmark orchestration for Benched",
     )
     subparsers = parser.add_subparsers(dest="command")
 
@@ -183,14 +181,14 @@ def main() -> int:
 
     # run local
     local_p = run_sub.add_parser("local", help="Run benchmarks locally")
-    local_p.add_argument("--config", help="Path to asv.conf.json(c)")
+    local_p.add_argument("--config", help="Path to pyproject.toml")
     local_p.add_argument("--quick", "-q", action="store_true", help="Quick mode")
     local_p.add_argument("--machine", help="Machine name")
     local_p.set_defaults(func=_run_local)
 
     # run docker
     docker_p = run_sub.add_parser("docker", help="Run benchmarks in a Docker/Podman container")
-    docker_p.add_argument("--config", help="Path to asv.conf.json(c)")
+    docker_p.add_argument("--config", help="Path to pyproject.toml")
     docker_p.add_argument("--quick", "-q", action="store_true", help="Quick mode")
     docker_p.add_argument("--machine", help="Machine name")
     docker_p.add_argument("--image", help="Container image (default: python:3.11)")
@@ -208,19 +206,20 @@ def main() -> int:
 
     # --- publish ---
     pub_p = subparsers.add_parser("publish", help="Generate HTML report")
-    pub_p.add_argument("--config", help="Path to asv.publish.conf.json(c)")
+    pub_p.add_argument("--config", help="Path to pyproject.toml")
+    pub_p.add_argument("--output", help="Report output directory")
     pub_p.set_defaults(func=_publish)
 
     # --- preview ---
     preview_p = subparsers.add_parser("preview", help="Preview HTML report locally")
-    preview_p.add_argument("--config", help="Path to asv.publish.conf.json(c)")
+    preview_p.add_argument("--output", help="Report output directory")
     preview_p.set_defaults(func=_preview)
 
     # --- compare ---
-    cmp_p = subparsers.add_parser("compare", help="Compare two commits")
-    cmp_p.add_argument("--config", help="Path to asv.conf.json(c)")
-    cmp_p.add_argument("base", nargs="?", help="Base commit")
-    cmp_p.add_argument("head", nargs="?", help="Head commit")
+    cmp_p = subparsers.add_parser("compare", help="Compare two saved runs")
+    cmp_p.add_argument("--config", help="Path to pyproject.toml")
+    cmp_p.add_argument("base", nargs="?", default="previous", help="Base run selector")
+    cmp_p.add_argument("head", nargs="?", default="latest", help="Head run selector")
     cmp_p.set_defaults(func=_compare)
 
     # --- cleanup ---
