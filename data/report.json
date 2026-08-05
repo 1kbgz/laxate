@@ -1,0 +1,470 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-05T04:42:41.456515+00:00",
+  "source_run_ids": [
+    "ea83403a6d5e4ad98786d877ca672015"
+  ],
+  "runs": [
+    {
+      "run_id": "ea83403a6d5e4ad98786d877ca672015",
+      "started_at": "2026-08-05T04:42:23.626855+00:00",
+      "status": "success",
+      "suite": {
+        "name": "laxate",
+        "repository": "https://github.com/1kbgz/laxate",
+        "version": "0.2.0",
+        "revision": "1803beee04b9d0e97bd8b176157d78a3a285b785",
+        "branch": "main",
+        "dirty": false,
+        "labels": {}
+      },
+      "subject": {
+        "name": "laxate",
+        "repository": "https://github.com/1kbgz/laxate",
+        "version": "0.2.0",
+        "revision": "1803beee04b9d0e97bd8b176157d78a3a285b785",
+        "branch": "main",
+        "dirty": false,
+        "labels": {}
+      },
+      "machine": {
+        "id": "github-actions",
+        "fingerprint": "0020d1a6434952d4ec1523fd470b67f22f29a8de26cdfb7bd9915ffba4dd4aeb",
+        "metadata": {
+          "architecture": "x86_64",
+          "cpu_count": 4,
+          "memory_gib": 15.5,
+          "processor": "x86_64",
+          "release": "6.17.0-1020-azure",
+          "system": "Linux"
+        },
+        "labels": {}
+      },
+      "environment": {
+        "fingerprint": "e0476d12f28ac04ff47e7209d6accbeba5fd9121e7d313300ccd2e319c3b859d",
+        "python_implementation": "CPython",
+        "python_version": "3.11.15",
+        "platform": "Linux",
+        "architecture": "x86_64",
+        "labels": {}
+      }
+    }
+  ],
+  "benchmarks": [
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_compute_operation|iterations=100&operation=%22UNSERIALIZABLE%5B%3Cfunction%20_list_comprehension%20at%200x7f357dd5e700%3E%5D%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_compute_operation[list-100]",
+      "name": "test_compute_operation[list-100]",
+      "group": "compute",
+      "parameters": {
+        "operation": "UNSERIALIZABLE[<function _list_comprehension at 0x7f357dd5e700>]",
+        "iterations": 100
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 3.896999999142281e-06,
+            "mean": 3.970256742426209e-06,
+            "min": 3.7869999971462676e-06,
+            "max": 3.4364000001119166e-05,
+            "ops": 251872.8799863214
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_compute_operation|iterations=100&operation=%22UNSERIALIZABLE%5B%3Cfunction%20_math_operations%20at%200x7f357dd5c040%3E%5D%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_compute_operation[math-100]",
+      "name": "test_compute_operation[math-100]",
+      "group": "compute",
+      "parameters": {
+        "operation": "UNSERIALIZABLE[<function _math_operations at 0x7f357dd5c040>]",
+        "iterations": 100
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 1.519900000346297e-05,
+            "mean": 1.5475981301375756e-05,
+            "min": 1.4427000010641677e-05,
+            "max": 0.00010006700000531055,
+            "ops": 64616.257962983174
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_compute_operation|iterations=100&operation=%22UNSERIALIZABLE%5B%3Cfunction%20_string_formatting%20at%200x7f357dd5ed40%3E%5D%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_compute_operation[format-100]",
+      "name": "test_compute_operation[format-100]",
+      "group": "compute",
+      "parameters": {
+        "operation": "UNSERIALIZABLE[<function _string_formatting at 0x7f357dd5ed40>]",
+        "iterations": 100
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 2.3584000004461814e-05,
+            "mean": 2.3806896501277977e-05,
+            "min": 2.306300000043393e-05,
+            "max": 0.00010748100000057548,
+            "ops": 42004.635083212925
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_compute_operation|iterations=1000&operation=%22UNSERIALIZABLE%5B%3Cfunction%20_list_comprehension%20at%200x7f357dd5e700%3E%5D%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_compute_operation[list-1000]",
+      "name": "test_compute_operation[list-1000]",
+      "group": "compute",
+      "parameters": {
+        "operation": "UNSERIALIZABLE[<function _list_comprehension at 0x7f357dd5e700>]",
+        "iterations": 1000
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 4.165699999703065e-05,
+            "mean": 4.232641138624859e-05,
+            "min": 4.0444999996225306e-05,
+            "max": 9.109999999168394e-05,
+            "ops": 23625.910329948023
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_compute_operation|iterations=1000&operation=%22UNSERIALIZABLE%5B%3Cfunction%20_math_operations%20at%200x7f357dd5c040%3E%5D%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_compute_operation[math-1000]",
+      "name": "test_compute_operation[math-1000]",
+      "group": "compute",
+      "parameters": {
+        "operation": "UNSERIALIZABLE[<function _math_operations at 0x7f357dd5c040>]",
+        "iterations": 1000
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 0.00016128099998979906,
+            "mean": 0.00016321495397901992,
+            "min": 0.00015444800000352643,
+            "max": 0.00031745299999386134,
+            "ops": 6126.8895748887235
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_compute_operation|iterations=1000&operation=%22UNSERIALIZABLE%5B%3Cfunction%20_string_formatting%20at%200x7f357dd5ed40%3E%5D%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_compute_operation[format-1000]",
+      "name": "test_compute_operation[format-1000]",
+      "group": "compute",
+      "parameters": {
+        "operation": "UNSERIALIZABLE[<function _string_formatting at 0x7f357dd5ed40>]",
+        "iterations": 1000
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 0.00024415600000793347,
+            "mean": 0.00024501660222236657,
+            "min": 0.0002355510000029426,
+            "max": 0.0003616160000063928,
+            "ops": 4081.3560833418255
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_compute_operation|iterations=10000&operation=%22UNSERIALIZABLE%5B%3Cfunction%20_list_comprehension%20at%200x7f357dd5e700%3E%5D%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_compute_operation[list-10000]",
+      "name": "test_compute_operation[list-10000]",
+      "group": "compute",
+      "parameters": {
+        "operation": "UNSERIALIZABLE[<function _list_comprehension at 0x7f357dd5e700>]",
+        "iterations": 10000
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 0.0004423780000024635,
+            "mean": 0.00044094501732812785,
+            "min": 0.0004030429999914986,
+            "max": 0.0005628819999969892,
+            "ops": 2267.8564462740105
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_compute_operation|iterations=10000&operation=%22UNSERIALIZABLE%5B%3Cfunction%20_math_operations%20at%200x7f357dd5c040%3E%5D%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_compute_operation[math-10000]",
+      "name": "test_compute_operation[math-10000]",
+      "group": "compute",
+      "parameters": {
+        "operation": "UNSERIALIZABLE[<function _math_operations at 0x7f357dd5c040>]",
+        "iterations": 10000
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 0.0017237590000007685,
+            "mean": 0.0017265474290782067,
+            "min": 0.001661753000007593,
+            "max": 0.0020845930000064072,
+            "ops": 579.1905760352579
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_compute_operation|iterations=10000&operation=%22UNSERIALIZABLE%5B%3Cfunction%20_string_formatting%20at%200x7f357dd5ed40%3E%5D%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_compute_operation[format-10000]",
+      "name": "test_compute_operation[format-10000]",
+      "group": "compute",
+      "parameters": {
+        "operation": "UNSERIALIZABLE[<function _string_formatting at 0x7f357dd5ed40>]",
+        "iterations": 10000
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 0.0024358330000069373,
+            "mean": 0.0024483340847881894,
+            "min": 0.0024028810000089607,
+            "max": 0.0035081890000014937,
+            "ops": 408.4409910449424
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_config_operation|num_keys=10&operation=%22merge%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_config_operation[merge-10]",
+      "name": "test_config_operation[merge-10]",
+      "group": "config",
+      "parameters": {
+        "operation": "merge",
+        "num_keys": 10
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 2.9052941135218775e-07,
+            "mean": 2.9400494382093686e-07,
+            "min": 2.7635294105386816e-07,
+            "max": 5.167294117193385e-06,
+            "ops": 3401303.348858808
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_config_operation|num_keys=10&operation=%22parse%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_config_operation[parse-10]",
+      "name": "test_config_operation[parse-10]",
+      "group": "config",
+      "parameters": {
+        "operation": "parse",
+        "num_keys": 10
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 2.4149999973133163e-06,
+            "mean": 2.4551394220387633e-06,
+            "min": 2.3340000012694873e-06,
+            "max": 8.25740000038877e-05,
+            "ops": 407308.84406132577
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_config_operation|num_keys=10&operation=%22roundtrip%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_config_operation[roundtrip-10]",
+      "name": "test_config_operation[roundtrip-10]",
+      "group": "config",
+      "parameters": {
+        "operation": "roundtrip",
+        "num_keys": 10
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 5.549999997356281e-06,
+            "mean": 5.638976967657351e-06,
+            "min": 5.298999994352016e-06,
+            "max": 5.752799999925173e-05,
+            "ops": 177337.13149309752
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_config_operation|num_keys=100&operation=%22merge%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_config_operation[merge-100]",
+      "name": "test_config_operation[merge-100]",
+      "group": "config",
+      "parameters": {
+        "operation": "merge",
+        "num_keys": 100
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 1.4025000005801758e-06,
+            "mean": 1.4244490629769502e-06,
+            "min": 1.3749999965284587e-06,
+            "max": 2.1828250002187133e-05,
+            "ops": 702025.8049172388
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_config_operation|num_keys=100&operation=%22parse%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_config_operation[parse-100]",
+      "name": "test_config_operation[parse-100]",
+      "group": "config",
+      "parameters": {
+        "operation": "parse",
+        "num_keys": 100
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 1.3696000010554599e-05,
+            "mean": 1.3920311781270845e-05,
+            "min": 1.3475000002927118e-05,
+            "max": 7.571100000802744e-05,
+            "ops": 71837.47143835206
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_config_operation|num_keys=100&operation=%22roundtrip%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_config_operation[roundtrip-100]",
+      "name": "test_config_operation[roundtrip-100]",
+      "group": "config",
+      "parameters": {
+        "operation": "roundtrip",
+        "num_keys": 100
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 2.905400000940972e-05,
+            "mean": 2.9607688300819816e-05,
+            "min": 2.8292999999735002e-05,
+            "max": 0.00010028799999872717,
+            "ops": 33775.011066038234
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_config_operation|num_keys=1000&operation=%22merge%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_config_operation[merge-1000]",
+      "name": "test_config_operation[merge-1000]",
+      "group": "config",
+      "parameters": {
+        "operation": "merge",
+        "num_keys": 1000
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 1.8975999992676407e-05,
+            "mean": 1.9345561122400713e-05,
+            "min": 1.841399999591431e-05,
+            "max": 6.836800000087351e-05,
+            "ops": 51691.444547559535
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_config_operation|num_keys=1000&operation=%22parse%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_config_operation[parse-1000]",
+      "name": "test_config_operation[parse-1000]",
+      "group": "config",
+      "parameters": {
+        "operation": "parse",
+        "num_keys": 1000
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 0.00012459299999534323,
+            "mean": 0.0001266549173069353,
+            "min": 0.00012347999999917647,
+            "max": 0.0002698039999984303,
+            "ops": 7895.4692108526815
+          }
+        }
+      ]
+    },
+    {
+      "benchmark_id": "laxate/benchmarks/bench_synthetic.py::test_config_operation|num_keys=1000&operation=%22roundtrip%22",
+      "nodeid": "laxate/benchmarks/bench_synthetic.py::test_config_operation[roundtrip-1000]",
+      "name": "test_config_operation[roundtrip-1000]",
+      "group": "config",
+      "parameters": {
+        "operation": "roundtrip",
+        "num_keys": 1000
+      },
+      "unit": "seconds",
+      "series": [
+        {
+          "run_id": "ea83403a6d5e4ad98786d877ca672015",
+          "metrics": {
+            "median": 0.0002636220000056255,
+            "mean": 0.00027135168993659237,
+            "min": 0.0002571800000055191,
+            "max": 0.0005438959999963799,
+            "ops": 3685.2543657777596
+          }
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}
