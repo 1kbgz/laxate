@@ -1,58 +1,60 @@
-"""
-Synthetic benchmarks for laxate.
-
-These benchmarks exercise basic Python operations to verify
-the ASV benchmark infrastructure is working end-to-end.
-"""
+"""Synthetic benchmarks for Laxate's Benched workflow."""
 
 import json
 import math
-from typing import ClassVar
+
+import pytest
 
 
-class ConfigParseSuite:
-    """Benchmarks for configuration parsing operations."""
-
-    params: ClassVar = ([10, 100, 1000],)
-    param_names: ClassVar = ["num_keys"]
-
-    def setup(self, num_keys):
-        self.data = {f"key_{i}": f"value_{i}" for i in range(num_keys)}
-        self.json_str = json.dumps(self.data)
-
-    def time_json_roundtrip(self, num_keys):
-        """Time JSON serialization and deserialization."""
-        json.loads(json.dumps(self.data))
-
-    def time_json_parse(self, num_keys):
-        """Time JSON deserialization."""
-        json.loads(self.json_str)
-
-    def time_dict_merge(self, num_keys):
-        """Time dictionary merge (config override pattern)."""
-        base = {f"base_{i}": i for i in range(num_keys)}
-        override = {f"key_{i}": f"override_{i}" for i in range(num_keys // 2)}
-        _ = {**base, **override}
+@pytest.fixture
+def config_data(num_keys):
+    data = {f"key_{index}": f"value_{index}" for index in range(num_keys)}
+    return data, json.dumps(data)
 
 
-class ComputeSuite:
-    """Simple compute benchmarks to track runner performance."""
+@pytest.mark.benchmark(group="config")
+@pytest.mark.parametrize("num_keys", [10, 100, 1000])
+@pytest.mark.parametrize("operation", ["roundtrip", "parse", "merge"])
+def test_config_operation(benchmark, config_data, num_keys, operation):
+    """Benchmark one configuration-processing operation."""
+    data, serialized = config_data
 
-    params: ClassVar = ([100, 1000, 10000],)
-    param_names: ClassVar = ["iterations"]
+    if operation == "roundtrip":
+        benchmark(lambda: json.loads(json.dumps(data)))
+    elif operation == "parse":
+        benchmark(json.loads, serialized)
+    else:
+        base = {f"base_{index}": index for index in range(num_keys)}
+        override = {f"key_{index}": f"override_{index}" for index in range(num_keys // 2)}
+        benchmark(lambda: {**base, **override})
 
-    def time_math_operations(self, iterations):
-        """Time basic math operations."""
-        total = 0.0
-        for i in range(1, iterations + 1):
-            total += math.sqrt(i) * math.log(i + 1)
 
-    def time_list_comprehension(self, iterations):
-        """Time list creation and processing."""
-        data = [i * i for i in range(iterations)]
-        sum(data)
+def _math_operations(iterations):
+    total = 0.0
+    for index in range(1, iterations + 1):
+        total += math.sqrt(index) * math.log(index + 1)
+    return total
 
-    def time_string_formatting(self, iterations):
-        """Time string formatting operations."""
-        for i in range(iterations):
-            f"benchmark-runner-{i:06d}-result"
+
+def _list_comprehension(iterations):
+    data = [index * index for index in range(iterations)]
+    return sum(data)
+
+
+def _string_formatting(iterations):
+    result = ""
+    for index in range(iterations):
+        result = f"benchmark-runner-{index:06d}-result"
+    return result
+
+
+@pytest.mark.benchmark(group="compute")
+@pytest.mark.parametrize("iterations", [100, 1000, 10000])
+@pytest.mark.parametrize(
+    "operation",
+    [_math_operations, _list_comprehension, _string_formatting],
+    ids=["math", "list", "format"],
+)
+def test_compute_operation(benchmark, iterations, operation):
+    """Benchmark one synthetic compute operation."""
+    benchmark(operation, iterations)

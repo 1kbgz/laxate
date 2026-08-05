@@ -30,9 +30,10 @@ def run_benchmarks(args: argparse.Namespace) -> int:
         overrides={
             "benchmark_repo": args.benchmark_repo,
             "project_repo": args.project_repo,
-            "asv_config": args.asv_config,
-            "asv_machine_json": args.asv_machine_json,
+            "benched_config": args.benched_config,
             "server_name_prefix": args.server_name,
+            "branch": args.branch,
+            "python_version": args.python_version,
         }
     )
 
@@ -43,11 +44,7 @@ def run_benchmarks(args: argparse.Namespace) -> int:
         cloud_init_packages=laxate_cfg.cloud_init_packages,
     )
 
-    benchmark_config = BenchmarkConfig.from_laxate_config(
-        laxate_cfg,
-        branches=args.branches.split(",") if args.branches else None,
-        commit_range=args.commits,
-    )
+    benchmark_config = BenchmarkConfig.from_laxate_config(laxate_cfg)
 
     manager = HetznerServerManager(token=token, config=server_config)
     server = None

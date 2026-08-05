@@ -17,12 +17,12 @@ logger = logging.getLogger(__name__)
 
 
 class HetznerBenchmarkRunner(BenchmarkRunner):
-    """Run ASV benchmarks on a Hetzner Cloud server.
+    """Run Benched benchmarks on a Hetzner Cloud server.
 
     Handles:
     1. SSH connection to the server
     2. Setting up the benchmark environment
-    3. Running ASV benchmarks
+    3. Running Benched benchmarks
     4. Collecting and returning results
     """
 
@@ -55,8 +55,8 @@ class HetznerBenchmarkRunner(BenchmarkRunner):
         """
         logger.info("Starting benchmarks on %s", self.server_ip)
         self._setup_environment()
-        asv_output = self._run_asv()
-        return self._collect_results(asv_output)
+        benched_output = self._run_benched()
+        return self._collect_results(benched_output)
 
     def push_results_to_repo(self, github_token: str | None = None) -> None:
         """Commit and push benchmark results back to the repository."""
@@ -81,9 +81,9 @@ class HetznerBenchmarkRunner(BenchmarkRunner):
 
         if github_token:
             push_url = self.config.benchmark_repo.replace("https://", f"https://x-access-token:{github_token}@")
-            commands.append(f"cd {repo_dir} && git push {push_url} HEAD:main")
+            commands.append(f"cd {repo_dir} && git push {push_url} HEAD:{self.config.branch}")
         else:
-            commands.append(f"cd {repo_dir} && git push origin main")
+            commands.append(f"cd {repo_dir} && git push origin HEAD:{self.config.branch}")
 
         for cmd in commands:
             result = self._remote.run(cmd, check=False)
@@ -105,19 +105,15 @@ class HetznerBenchmarkRunner(BenchmarkRunner):
         server_type = self.server.server_type.name
         self._machine_name = f"hetzner-{server_type}"
 
-        python_install = " ".join(self.config.python_versions)
-
         commands = [
             "cloud-init status --wait || true",
             "curl -LsSf https://astral.sh/uv/install.sh | sh",
             "export PATH=$HOME/.local/bin:$PATH",
-            f"$HOME/.local/bin/uv python install {python_install}",
+            f"$HOME/.local/bin/uv python install {self.config.python_version}",
             f"git clone {self.config.benchmark_repo} /root/benchmarks",
-            f"cd /root/benchmarks && git checkout {self.config.branches[0]}",
-            f"cd /root/benchmarks && $HOME/.local/bin/uv venv .venv --python {self.config.python_versions[0]}",
+            f"cd /root/benchmarks && git checkout {self.config.branch}",
+            f"cd /root/benchmarks && $HOME/.local/bin/uv venv .venv --python {self.config.python_version}",
             "cd /root/benchmarks && PATH=$HOME/.local/bin:$PATH make develop",
-            f"cp /root/benchmarks/{self.config.asv_machine_json} ~/.asv-machine.json",
-            "cd /root/benchmarks && . .venv/bin/activate && make benchmark-init",
         ]
 
         for cmd in commands:
@@ -125,21 +121,23 @@ class HetznerBenchmarkRunner(BenchmarkRunner):
 
         logger.info("Environment setup complete (machine: %s)", self._machine_name)
 
-    def _run_asv(self) -> str:
-        """Run ASV benchmarks and return combined stdout+stderr."""
-        logger.info("Running ASV benchmarks…")
+    def _run_benched(self) -> str:
+        """Run Benched benchmarks and return combined stdout+stderr."""
+        logger.info("Running Benched benchmarks…")
 
-        machine_arg = f"MACHINE={self._machine_name}" if self._machine_name else ""
+        make_args = [f"BENCHED_CONFIG={self.config.benched_config}"]
+        if self._machine_name:
+            make_args.append(f"MACHINE={self._machine_name}")
 
-        # Use Makefile target which handles --python=same and --set-commit-hash
-        cmd = f"cd /root/benchmarks && . .venv/bin/activate && make benchmark {machine_arg}"
+        # Use the benchmark repository's standard Benched target
+        cmd = f"cd /root/benchmarks && . .venv/bin/activate && make benchmark {' '.join(make_args)}"
         result = self._remote.run(cmd, check=False)
 
-        asv_output = result.stdout + result.stderr
+        benched_output = result.stdout + result.stderr
 
         if result.returncode != 0:
-            logger.warning("ASV exited with code %d", result.returncode)
-        logger.info("ASV output (last 2000 chars):\n%s", asv_output[-2000:])
+            logger.warning("Benched exited with code %d", result.returncode)
+        logger.info("Benched output (last 2000 chars):\n%s", benched_output[-2000:])
 
         if self._machine_name:
             results_path = f"/root/benchmarks/{self.config.results_dir}/{self._machine_name}/"
@@ -149,9 +147,9 @@ class HetznerBenchmarkRunner(BenchmarkRunner):
             )
             logger.info("Machine results directory contents:\n%s", list_result.stdout)
 
-        return asv_output
+        return benched_output
 
-    def _collect_results(self, asv_output: str) -> dict:
+    def _collect_results(self, benched_output: str) -> dict:
         """Download and return benchmark results from the remote server."""
         logger.info("Collecting benchmark results…")
 
@@ -162,10 +160,10 @@ class HetznerBenchmarkRunner(BenchmarkRunner):
             check=False,
         )
         if "NO_RESULTS" in check_result.stdout or "No such file" in check_result.stdout:
-            logger.warning("No results directory found — ASV may have failed")
+            logger.warning("No results directory found — Benched may have failed")
             return {
                 "server": self._server_meta(),
-                "asv_output": asv_output,
+                "benched_output": benched_output,
                 "results_files": [],
                 "error": "No results directory found",
             }
@@ -178,7 +176,7 @@ class HetznerBenchmarkRunner(BenchmarkRunner):
 
             results = {
                 "server": self._server_meta(),
-                "asv_output": asv_output,
+                "benched_output": benched_output,
                 "results_files": [],
             }
 

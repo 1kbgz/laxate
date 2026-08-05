@@ -47,7 +47,7 @@ on:
       - main
     paths:
       - 'laxate/benchmarks/**'
-      - 'laxate/asv.conf.json'
+      - 'pyproject.toml'
 
 concurrency:
   group: benchmarks-${{ github.ref }}
@@ -74,11 +74,6 @@ jobs:
       - name: Install dependencies
         run: make develop
 
-      - name: Configure ASV machine
-        run: |
-          cp laxate/asv-machine.json ~/.asv-machine.json
-          python -m asv machine --config laxate/asv.conf.json --verbose --yes
-
       - name: Run benchmarks
         run: laxate run local --machine github-actions
 
@@ -90,7 +85,7 @@ jobs:
         with:
           name: benchmark-results
           path: |
-            laxate/results/
+            laxate/benched-results/
             docs/benchmarks/
 
       - name: Deploy to GitHub Pages
@@ -140,7 +135,8 @@ jobs:
             --server-type ${{ github.event.inputs.server_type || 'cx23' }} \
             --ssh-key ~/.ssh/hetzner_key \
             --ssh-key-name benchmarks \
-            --branches ${{ github.event.inputs.branch || 'main' }} \
+            --branch ${{ github.event.inputs.branch || 'main' }} \
+            --python-version ${{ github.event.inputs.python_version || '3.11' }} \
             --push
 
       - name: Cleanup servers

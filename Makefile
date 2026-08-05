@@ -27,16 +27,16 @@ lint-py:  ## lint python with ruff
 	python -m ruff format --check laxate
 
 lint-docs:  ## lint docs with mdformat and codespell
-	python -m mdformat --check README.md
-	python -m codespell_lib README.md
+	python -m mdformat --check README.md docs/src
+	python -m codespell_lib README.md docs/src
 
 fix-py:  ## autoformat python code with ruff
 	python -m ruff check --fix laxate
 	python -m ruff format laxate
 
 fix-docs:  ## autoformat docs with mdformat and codespell
-	python -m mdformat README.md
-	python -m codespell_lib --write README.md
+	python -m mdformat README.md docs/src
+	python -m codespell_lib --write README.md docs/src
 
 lint: lint-py lint-docs  ## run all linters
 lints: lint
@@ -108,26 +108,28 @@ publish: dist  ## publish python assets
 ##############
 # BENCHMARKS #
 ##############
-.PHONY: benchmark benchmark-quick benchmark-init benchmark-publish benchmark-view
+.PHONY: benchmark benchmark-quick benchmark-list benchmark-publish benchmark-view benchmark-import-asv
 
-ASV_CONFIG := $(CURDIR)/laxate/asv.conf.json
-ASV_PUBLISH_CONFIG := $(CURDIR)/laxate/asv.publish.conf.json
-ASV_MACHINE_ARG := $(if $(MACHINE),--machine $(MACHINE),)
-
-benchmark-init: ## Initialize ASV
-	python -m asv machine --config $(ASV_CONFIG) --verbose --yes
+BENCHED_MACHINE_ARG := $(if $(MACHINE),--machine $(MACHINE),)
+BENCHED_CONFIG_ARG := $(if $(BENCHED_CONFIG),--pyproject $(BENCHED_CONFIG),)
 
 benchmark: ## run benchmark
-	python -m asv run --python=same --config $(ASV_CONFIG) --verbose --set-commit-hash HEAD $(ASV_MACHINE_ARG)
+	python -m benched run $(BENCHED_CONFIG_ARG) $(BENCHED_MACHINE_ARG)
 
 benchmark-quick: ## run quick benchmark
-	python -m asv run --quick --python=same --config $(ASV_CONFIG) --verbose --set-commit-hash HEAD $(ASV_MACHINE_ARG)
+	python -m benched run --quick $(BENCHED_CONFIG_ARG) $(BENCHED_MACHINE_ARG)
+
+benchmark-list: ## list collected benchmarks
+	python -m benched list $(BENCHED_CONFIG_ARG)
 
 benchmark-publish:  ## generate viewable website of benchmark results
-	python -m asv publish --config $(ASV_PUBLISH_CONFIG)
+	python -m benched report --format html --output docs/benchmarks
 
 benchmark-view: benchmark-publish  ## view the website of benchmark results
-	python -m asv preview --config $(ASV_PUBLISH_CONFIG)
+	python -m benched serve docs/benchmarks --port 8000 --open
+
+benchmark-import-asv: ## import historical ASV results once
+	python -m benched import-asv laxate/results --results-dir laxate/benched-results --asv-config laxate/asv.conf.json
 
 #########
 # CLEAN #

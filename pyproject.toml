@@ -9,12 +9,12 @@ name = "laxate"
 authors = [
     {name = "the laxate authors", email = "dev@1kbgz.com"},
 ]
-description = "Cloud-based ASV benchmark runner"
+description = "Cloud benchmark orchestration for Benched"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 version = "0.1.0"
 requires-python = ">=3.11"
-keywords = ["benchmarks", "asv", "hetzner", "performance"]
+keywords = ["benchmarks", "benched", "hetzner", "performance"]
 
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -29,7 +29,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "asv>=0.6",
+    "benched>=0.2.0",
 ]
 
 [project.optional-dependencies]
@@ -116,6 +116,10 @@ addopts = [
     "-vvv",
     "--junitxml=junit.xml",
 ]
+python_files = [
+    "test_*.py",
+    "bench_*.py",
+]
 testpaths = "laxate/tests"
 
 [tool.ruff]
@@ -149,10 +153,13 @@ section-order = [
 [tool.laxate]
 benchmark_repo = "https://github.com/1kbgz/laxate.git"
 project_repo = "https://github.com/1kbgz/laxate.git"
-asv_config = "laxate/asv.conf.json"
-asv_publish_config = "laxate/asv.publish.conf.json"
-asv_machine_json = "laxate/asv-machine.json"
-results_dir = "laxate/results"
+benched_config = "pyproject.toml"
+report_output = "docs/benchmarks"
+results_dir = "laxate/benched-results"
+
+[tool.benched]
+benchmark_paths = ["laxate/benchmarks"]
+results_dir = "laxate/benched-results"
 
 [tool.yardang]
 pages = [
