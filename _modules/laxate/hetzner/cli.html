@@ -232,11 +232,11 @@
         <article role="main" id="furo-main-content">
           <h1>Source code for laxate.hetzner.cli</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
-<span class="sd">&quot;&quot;&quot;Hetzner Cloud benchmark helpers.</span>
+<span class="sd">"""Hetzner Cloud benchmark helpers.</span>
 
 <span class="sd">These functions are called from the main ``laxate`` CLI via</span>
 <span class="sd">``laxate run hetzner`` and ``laxate cleanup hetzner``.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -255,20 +255,20 @@
 <div class="viewcode-block" id="run_benchmarks">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/cli/index.html#laxate.hetzner.cli.run_benchmarks">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">run_benchmarks</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run benchmarks on a Hetzner Cloud server.&quot;&quot;&quot;</span>
-    <span class="n">token</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">token</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;HCLOUD_TOKEN&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Run benchmarks on a Hetzner Cloud server."""</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">token</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"HCLOUD_TOKEN"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Hetzner Cloud token required. Set HCLOUD_TOKEN or use --token&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Hetzner Cloud token required. Set HCLOUD_TOKEN or use --token"</span><span class="p">)</span>
         <span class="k">return</span> <span class="mi">1</span>
 
     <span class="n">laxate_cfg</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span>
         <span class="n">overrides</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;benchmark_repo&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">benchmark_repo</span><span class="p">,</span>
-            <span class="s2">&quot;project_repo&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">project_repo</span><span class="p">,</span>
-            <span class="s2">&quot;benched_config&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">benched_config</span><span class="p">,</span>
-            <span class="s2">&quot;server_name_prefix&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">server_name</span><span class="p">,</span>
-            <span class="s2">&quot;branch&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">branch</span><span class="p">,</span>
-            <span class="s2">&quot;python_version&quot;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">python_version</span><span class="p">,</span>
+            <span class="s2">"benchmark_repo"</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">benchmark_repo</span><span class="p">,</span>
+            <span class="s2">"project_repo"</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">project_repo</span><span class="p">,</span>
+            <span class="s2">"benched_config"</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">benched_config</span><span class="p">,</span>
+            <span class="s2">"server_name_prefix"</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">server_name</span><span class="p">,</span>
+            <span class="s2">"branch"</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">branch</span><span class="p">,</span>
+            <span class="s2">"python_version"</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">python_version</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">)</span>
 
@@ -287,7 +287,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">server</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">get_server</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">server</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">reuse</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Server </span><span class="si">%s</span><span class="s2"> already exists. Use --reuse to reuse it.&quot;</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Server </span><span class="si">%s</span><span class="s2"> already exists. Use --reuse to reuse it."</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="k">return</span> <span class="mi">1</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">server</span><span class="p">:</span>
             <span class="n">server</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">create_server</span><span class="p">()</span>
@@ -299,35 +299,35 @@
         <span class="p">)</span>
 
         <span class="n">results</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">run_benchmarks</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Benchmarks completed. Results: </span><span class="si">%d</span><span class="s2"> files&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;results_files&quot;</span><span class="p">,</span> <span class="p">[])))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Benchmarks completed. Results: </span><span class="si">%d</span><span class="s2"> files"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"results_files"</span><span class="p">,</span> <span class="p">[])))</span>
 
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">push</span><span class="p">:</span>
-            <span class="n">github_token</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">github_token</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;GITHUB_TOKEN&quot;</span><span class="p">)</span>
+            <span class="n">github_token</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">github_token</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"GITHUB_TOKEN"</span><span class="p">)</span>
             <span class="n">runner</span><span class="o">.</span><span class="n">push_results_to_repo</span><span class="p">(</span><span class="n">github_token</span><span class="o">=</span><span class="n">github_token</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="mi">0</span>
 
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Benchmark run failed&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">"Benchmark run failed"</span><span class="p">)</span>
         <span class="k">return</span> <span class="mi">1</span>
 
     <span class="k">finally</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">keep_server</span> <span class="ow">and</span> <span class="n">server</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cleaning up server…&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Cleaning up server…"</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">manager</span><span class="o">.</span><span class="n">delete_server</span><span class="p">(</span><span class="n">server</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">cleanup_error</span><span class="p">:</span>  <span class="c1"># noqa: BLE001</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed to clean up server: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cleanup_error</span><span class="p">)</span></div>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Failed to clean up server: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">cleanup_error</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="cleanup_servers">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/cli/index.html#laxate.hetzner.cli.cleanup_servers">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cleanup_servers</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clean up any leftover benchmark servers.&quot;&quot;&quot;</span>
-    <span class="n">token</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">token</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;HCLOUD_TOKEN&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Clean up any leftover benchmark servers."""</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">token</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"HCLOUD_TOKEN"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Hetzner Cloud token required. Set HCLOUD_TOKEN or use --token&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Hetzner Cloud token required. Set HCLOUD_TOKEN or use --token"</span><span class="p">)</span>
         <span class="k">return</span> <span class="mi">1</span>
 
     <span class="n">laxate_cfg</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">()</span>
@@ -339,11 +339,11 @@
 
     <span class="k">for</span> <span class="n">server</span> <span class="ow">in</span> <span class="n">servers</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">server</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Deleting server: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Deleting server: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">manager</span><span class="o">.</span><span class="n">delete_server</span><span class="p">(</span><span class="n">server</span><span class="p">)</span>
             <span class="n">deleted</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cleaned up </span><span class="si">%d</span><span class="s2"> servers&quot;</span><span class="p">,</span> <span class="n">deleted</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Cleaned up </span><span class="si">%d</span><span class="s2"> servers"</span><span class="p">,</span> <span class="n">deleted</span><span class="p">)</span>
     <span class="k">return</span> <span class="mi">0</span></div>
 
 </pre></div>

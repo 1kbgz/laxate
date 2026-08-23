@@ -231,7 +231,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for laxate.runner</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Base runner and configuration for benchmark execution.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Base runner and configuration for benchmark execution."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -248,25 +248,25 @@
 <a class="viewcode-back" href="../../autoapi/laxate/runner/index.html#laxate.BenchmarkConfig">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BenchmarkConfig</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for a benchmark run.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configuration for a benchmark run."""</span>
 
-    <span class="n">benchmark_repo</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">project_repo</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">branch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;main&quot;</span>
+    <span class="n">benchmark_repo</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">project_repo</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">branch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"main"</span>
     <span class="n">python_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_PYTHON_VERSION</span>
 
     <span class="c1"># Paths inside the benchmark repo (relative to repo root)</span>
-    <span class="n">benched_config</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pyproject.toml&quot;</span>
-    <span class="n">results_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;results&quot;</span>
+    <span class="n">benched_config</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"pyproject.toml"</span>
+    <span class="n">results_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"results"</span>
 
-    <span class="c1"># Extra install groups (e.g. &quot;develop&quot;, &quot;hetzner&quot;)</span>
-    <span class="n">install_extras</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;develop&quot;</span><span class="p">])</span>
+    <span class="c1"># Extra install groups (e.g. "develop", "hetzner")</span>
+    <span class="n">install_extras</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="s2">"develop"</span><span class="p">])</span>
 
 <div class="viewcode-block" id="BenchmarkConfig.from_laxate_config">
 <a class="viewcode-back" href="../../autoapi/laxate/runner/index.html#laxate.BenchmarkConfig.from_laxate_config">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_laxate_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">LaxateConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BenchmarkConfig</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a BenchmarkConfig from the top-level LaxateConfig.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Build a BenchmarkConfig from the top-level LaxateConfig."""</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
             <span class="n">benchmark_repo</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">benchmark_repo</span><span class="p">,</span>
             <span class="n">project_repo</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">project_repo</span><span class="p">,</span>
@@ -282,11 +282,11 @@
 <div class="viewcode-block" id="BenchmarkRunner">
 <a class="viewcode-back" href="../../autoapi/laxate/runner/index.html#laxate.BenchmarkRunner">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BenchmarkRunner</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for benchmark runners.</span>
+<span class="w">    </span><span class="sd">"""Abstract base class for benchmark runners.</span>
 
 <span class="sd">    Subclasses implement provider-specific logic (local, Hetzner, AWS, etc.)</span>
 <span class="sd">    while sharing the same configuration and result format.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">BenchmarkConfig</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="n">BenchmarkConfig</span><span class="p">()</span>
@@ -295,14 +295,14 @@
 <a class="viewcode-back" href="../../autoapi/laxate/runner/index.html#laxate.BenchmarkRunner.run_benchmarks">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">run_benchmarks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run benchmarks and return a results dictionary.&quot;&quot;&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Run benchmarks and return a results dictionary."""</span></div>
 
 
 <div class="viewcode-block" id="BenchmarkRunner.push_results_to_repo">
 <a class="viewcode-back" href="../../autoapi/laxate/runner/index.html#laxate.BenchmarkRunner.push_results_to_repo">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">push_results_to_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">github_token</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Commit and push benchmark results back to the repository.&quot;&quot;&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Commit and push benchmark results back to the repository."""</span></div>
 </div>
 
 </pre></div>

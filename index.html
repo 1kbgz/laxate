@@ -253,7 +253,7 @@ matrix implicitly: select or prepare one environment, then record it.</p>
 <section id="install">
 <h2>Install<a class="headerlink" href="#install" title="Link to this heading">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>laxate
-pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;laxate[hetzner]&quot;</span><span class="w">  </span><span class="c1"># optional cloud provider</span>
+pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"laxate[hetzner]"</span><span class="w">  </span><span class="c1"># optional cloud provider</span>
 </pre></div>
 </div>
 </section>
@@ -275,7 +275,7 @@ laxate<span class="w"> </span>preview
 commands must install the project and Benched into the container:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>laxate<span class="w"> </span>run<span class="w"> </span>docker<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--image<span class="w"> </span>python:3.12<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--init-command<span class="w"> </span><span class="s2">&quot;pip install -e .&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--init-command<span class="w"> </span><span class="s2">"pip install -e ."</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--machine<span class="w"> </span>docker-3.12
 </pre></div>
 </div>

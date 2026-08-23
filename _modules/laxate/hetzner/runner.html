@@ -231,7 +231,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for laxate.hetzner.runner</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Hetzner Cloud benchmark runner.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Hetzner Cloud benchmark runner."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -252,14 +252,14 @@
 <div class="viewcode-block" id="HetznerBenchmarkRunner">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/runner/index.html#laxate.hetzner.HetznerBenchmarkRunner">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HetznerBenchmarkRunner</span><span class="p">(</span><span class="n">BenchmarkRunner</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run Benched benchmarks on a Hetzner Cloud server.</span>
+<span class="w">    </span><span class="sd">"""Run Benched benchmarks on a Hetzner Cloud server.</span>
 
 <span class="sd">    Handles:</span>
 <span class="sd">    1. SSH connection to the server</span>
 <span class="sd">    2. Setting up the benchmark environment</span>
 <span class="sd">    3. Running Benched benchmarks</span>
 <span class="sd">    4. Collecting and returning results</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -273,7 +273,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">server_ip</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">public_net</span><span class="o">.</span><span class="n">ipv4</span><span class="o">.</span><span class="n">ip</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_remote</span> <span class="o">=</span> <span class="n">RemoteExecutor</span><span class="p">(</span>
             <span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">server_ip</span><span class="p">,</span>
-            <span class="n">user</span><span class="o">=</span><span class="s2">&quot;root&quot;</span><span class="p">,</span>
+            <span class="n">user</span><span class="o">=</span><span class="s2">"root"</span><span class="p">,</span>
             <span class="n">ssh_key_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ssh_key_path</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_machine_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -285,12 +285,12 @@
 <div class="viewcode-block" id="HetznerBenchmarkRunner.run_benchmarks">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/runner/index.html#laxate.hetzner.HetznerBenchmarkRunner.run_benchmarks">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run_benchmarks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the full benchmark suite on the remote server.</span>
+<span class="w">        </span><span class="sd">"""Run the full benchmark suite on the remote server.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Dictionary containing benchmark results and metadata.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting benchmarks on </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_ip</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Starting benchmarks on </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_ip</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setup_environment</span><span class="p">()</span>
         <span class="n">benched_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_benched</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect_results</span><span class="p">(</span><span class="n">benched_output</span><span class="p">)</span></div>
@@ -299,38 +299,38 @@
 <div class="viewcode-block" id="HetznerBenchmarkRunner.push_results_to_repo">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/runner/index.html#laxate.hetzner.HetznerBenchmarkRunner.push_results_to_repo">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">push_results_to_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">github_token</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Commit and push benchmark results back to the repository.&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Pushing results to repository…&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Commit and push benchmark results back to the repository."""</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Pushing results to repository…"</span><span class="p">)</span>
 
-        <span class="n">repo_dir</span> <span class="o">=</span> <span class="s2">&quot;/root/benchmarks&quot;</span>
-        <span class="n">results_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">results_dir</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">repo_dir</span> <span class="o">=</span> <span class="s2">"/root/benchmarks"</span>
+        <span class="n">results_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">results_dir</span><span class="si">}</span><span class="s2">"</span>
 
         <span class="n">list_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;find </span><span class="si">{</span><span class="n">results_path</span><span class="si">}</span><span class="s2"> -name &#39;*.json&#39; | head -50&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"find </span><span class="si">{</span><span class="n">results_path</span><span class="si">}</span><span class="s2"> -name '*.json' | head -50"</span><span class="p">,</span>
             <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Result files on server:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">list_result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Result files on server:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">list_result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
 
         <span class="n">commands</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git config user.email &#39;benchmark-bot@example.com&#39;&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git config user.name &#39;Benchmark Bot&#39;&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git add -f </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">results_dir</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git status --short&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git commit -m &#39;Add benchmark results&#39; || true&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git config user.email 'benchmark-bot@example.com'"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git config user.name 'Benchmark Bot'"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git add -f </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">results_dir</span><span class="si">}</span><span class="s2">/"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git status --short"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git commit -m 'Add benchmark results' || true"</span><span class="p">,</span>
         <span class="p">]</span>
 
         <span class="k">if</span> <span class="n">github_token</span><span class="p">:</span>
-            <span class="n">push_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">benchmark_repo</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;https://x-access-token:</span><span class="si">{</span><span class="n">github_token</span><span class="si">}</span><span class="s2">@&quot;</span><span class="p">)</span>
-            <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git push </span><span class="si">{</span><span class="n">push_url</span><span class="si">}</span><span class="s2"> HEAD:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">branch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">push_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">benchmark_repo</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"https://"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"https://x-access-token:</span><span class="si">{</span><span class="n">github_token</span><span class="si">}</span><span class="s2">@"</span><span class="p">)</span>
+            <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git push </span><span class="si">{</span><span class="n">push_url</span><span class="si">}</span><span class="s2"> HEAD:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">branch</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git push origin HEAD:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">branch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"cd </span><span class="si">{</span><span class="n">repo_dir</span><span class="si">}</span><span class="s2"> &amp;&amp; git push origin HEAD:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">branch</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">commands</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s2">&quot;git status&quot;</span> <span class="ow">in</span> <span class="n">cmd</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Git status:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">"git status"</span> <span class="ow">in</span> <span class="n">cmd</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Git status:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Results pushed successfully&quot;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Results pushed successfully"</span><span class="p">)</span></div>
 
 
     <span class="c1"># ------------------------------------------------------------------ #</span>
@@ -340,58 +340,58 @@
 <div class="viewcode-block" id="HetznerBenchmarkRunner._setup_environment">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/runner/index.html#laxate.hetzner.HetznerBenchmarkRunner._setup_environment">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_setup_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set up the benchmark environment on the remote server.&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Setting up benchmark environment…&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Set up the benchmark environment on the remote server."""</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Setting up benchmark environment…"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_remote</span><span class="o">.</span><span class="n">wait_for_ssh</span><span class="p">()</span>
 
         <span class="n">server_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">server_type</span><span class="o">.</span><span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_machine_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;hetzner-</span><span class="si">{</span><span class="n">server_type</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_machine_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"hetzner-</span><span class="si">{</span><span class="n">server_type</span><span class="si">}</span><span class="s2">"</span>
 
         <span class="n">commands</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;cloud-init status --wait || true&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;curl -LsSf https://astral.sh/uv/install.sh | sh&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;export PATH=$HOME/.local/bin:$PATH&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;$HOME/.local/bin/uv python install </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">python_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;git clone </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">benchmark_repo</span><span class="si">}</span><span class="s2"> /root/benchmarks&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;cd /root/benchmarks &amp;&amp; git checkout </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">branch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;cd /root/benchmarks &amp;&amp; $HOME/.local/bin/uv venv .venv --python </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">python_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;cd /root/benchmarks &amp;&amp; PATH=$HOME/.local/bin:$PATH make develop&quot;</span><span class="p">,</span>
+            <span class="s2">"cloud-init status --wait || true"</span><span class="p">,</span>
+            <span class="s2">"curl -LsSf https://astral.sh/uv/install.sh | sh"</span><span class="p">,</span>
+            <span class="s2">"export PATH=$HOME/.local/bin:$PATH"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"$HOME/.local/bin/uv python install </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">python_version</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"git clone </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">benchmark_repo</span><span class="si">}</span><span class="s2"> /root/benchmarks"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"cd /root/benchmarks &amp;&amp; git checkout </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">branch</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"cd /root/benchmarks &amp;&amp; $HOME/.local/bin/uv venv .venv --python </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">python_version</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="s2">"cd /root/benchmarks &amp;&amp; PATH=$HOME/.local/bin:$PATH make develop"</span><span class="p">,</span>
         <span class="p">]</span>
 
         <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">commands</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_remote</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Environment setup complete (machine: </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_machine_name</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Environment setup complete (machine: </span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_machine_name</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="HetznerBenchmarkRunner._run_benched">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/runner/index.html#laxate.hetzner.HetznerBenchmarkRunner._run_benched">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_run_benched</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run Benched benchmarks and return combined stdout+stderr.&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running Benched benchmarks…&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Run Benched benchmarks and return combined stdout+stderr."""</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Running Benched benchmarks…"</span><span class="p">)</span>
 
-        <span class="n">make_args</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;BENCHED_CONFIG=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">benched_config</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">make_args</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"BENCHED_CONFIG=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">benched_config</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_machine_name</span><span class="p">:</span>
-            <span class="n">make_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MACHINE=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_machine_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">make_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"MACHINE=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_machine_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-        <span class="c1"># Use the benchmark repository&#39;s standard Benched target</span>
-        <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;cd /root/benchmarks &amp;&amp; . .venv/bin/activate &amp;&amp; make benchmark </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">make_args</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="c1"># Use the benchmark repository's standard Benched target</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"cd /root/benchmarks &amp;&amp; . .venv/bin/activate &amp;&amp; make benchmark </span><span class="si">{</span><span class="s1">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">make_args</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="n">benched_output</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span> <span class="o">+</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span>
 
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Benched exited with code </span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Benched output (last 2000 chars):</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">benched_output</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">:])</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Benched exited with code </span><span class="si">%d</span><span class="s2">"</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Benched output (last 2000 chars):</span><span class="se">\n</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">benched_output</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">:])</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_machine_name</span><span class="p">:</span>
-            <span class="n">results_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/root/benchmarks/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">results_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_machine_name</span><span class="si">}</span><span class="s2">/&quot;</span>
+            <span class="n">results_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"/root/benchmarks/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">results_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_machine_name</span><span class="si">}</span><span class="s2">/"</span>
             <span class="n">list_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;ls -la </span><span class="si">{</span><span class="n">results_path</span><span class="si">}</span><span class="s2"> || echo &#39;No results directory&#39;&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"ls -la </span><span class="si">{</span><span class="n">results_path</span><span class="si">}</span><span class="s2"> || echo 'No results directory'"</span><span class="p">,</span>
                 <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Machine results directory contents:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">list_result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Machine results directory contents:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">list_result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">benched_output</span></div>
 
@@ -399,41 +399,41 @@
 <div class="viewcode-block" id="HetznerBenchmarkRunner._collect_results">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/runner/index.html#laxate.hetzner.HetznerBenchmarkRunner._collect_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_collect_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">benched_output</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download and return benchmark results from the remote server.&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Collecting benchmark results…&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Download and return benchmark results from the remote server."""</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Collecting benchmark results…"</span><span class="p">)</span>
 
-        <span class="n">results_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/root/benchmarks/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">results_dir</span><span class="si">}</span><span class="s2">/&quot;</span>
+        <span class="n">results_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"/root/benchmarks/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">results_dir</span><span class="si">}</span><span class="s2">/"</span>
 
         <span class="n">check_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remote</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;ls -la </span><span class="si">{</span><span class="n">results_path</span><span class="si">}</span><span class="s2"> 2&gt;&amp;1 || echo &#39;NO_RESULTS&#39;&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"ls -la </span><span class="si">{</span><span class="n">results_path</span><span class="si">}</span><span class="s2"> 2&gt;&amp;1 || echo 'NO_RESULTS'"</span><span class="p">,</span>
             <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="s2">&quot;NO_RESULTS&quot;</span> <span class="ow">in</span> <span class="n">check_result</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">or</span> <span class="s2">&quot;No such file&quot;</span> <span class="ow">in</span> <span class="n">check_result</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No results directory found — Benched may have failed&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"NO_RESULTS"</span> <span class="ow">in</span> <span class="n">check_result</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">or</span> <span class="s2">"No such file"</span> <span class="ow">in</span> <span class="n">check_result</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"No results directory found — Benched may have failed"</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">{</span>
-                <span class="s2">&quot;server&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server_meta</span><span class="p">(),</span>
-                <span class="s2">&quot;benched_output&quot;</span><span class="p">:</span> <span class="n">benched_output</span><span class="p">,</span>
-                <span class="s2">&quot;results_files&quot;</span><span class="p">:</span> <span class="p">[],</span>
-                <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;No results directory found&quot;</span><span class="p">,</span>
+                <span class="s2">"server"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server_meta</span><span class="p">(),</span>
+                <span class="s2">"benched_output"</span><span class="p">:</span> <span class="n">benched_output</span><span class="p">,</span>
+                <span class="s2">"results_files"</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"No results directory found"</span><span class="p">,</span>
             <span class="p">}</span>
 
         <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
-            <span class="n">local_results</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;results&quot;</span>
+            <span class="n">local_results</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"results"</span>
             <span class="n">local_results</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_remote</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">results_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">local_results</span><span class="p">))</span>
 
             <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;server&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server_meta</span><span class="p">(),</span>
-                <span class="s2">&quot;benched_output&quot;</span><span class="p">:</span> <span class="n">benched_output</span><span class="p">,</span>
-                <span class="s2">&quot;results_files&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">"server"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_server_meta</span><span class="p">(),</span>
+                <span class="s2">"benched_output"</span><span class="p">:</span> <span class="n">benched_output</span><span class="p">,</span>
+                <span class="s2">"results_files"</span><span class="p">:</span> <span class="p">[],</span>
             <span class="p">}</span>
 
-            <span class="k">for</span> <span class="n">result_file</span> <span class="ow">in</span> <span class="n">local_results</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.json&quot;</span><span class="p">):</span>
-                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;results_files&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="k">for</span> <span class="n">result_file</span> <span class="ow">in</span> <span class="n">local_results</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">"*.json"</span><span class="p">):</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">"results_files"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="p">{</span>
-                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">result_file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                        <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">result_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">(),</span>
+                        <span class="s2">"name"</span><span class="p">:</span> <span class="n">result_file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="s2">"content"</span><span class="p">:</span> <span class="n">result_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">(),</span>
                     <span class="p">}</span>
                 <span class="p">)</span>
 
@@ -444,10 +444,10 @@
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/runner/index.html#laxate.hetzner.HetznerBenchmarkRunner._server_meta">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_server_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
-            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">server_type</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-            <span class="s2">&quot;ip&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_ip</span><span class="p">,</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">server_type</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">"ip"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_ip</span><span class="p">,</span>
         <span class="p">}</span></div>
 </div>
 

@@ -231,7 +231,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for laxate.hetzner.server</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Hetzner Cloud server management for benchmarks.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Hetzner Cloud server management for benchmarks."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -252,12 +252,12 @@
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/server/index.html#laxate.hetzner.ServerConfig">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ServerConfig</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for a Hetzner benchmark server.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Configuration for a Hetzner benchmark server."""</span>
 
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;benchmark-runner&quot;</span>
-    <span class="n">server_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cx23&quot;</span>  <span class="c1"># 2 vCPU, 4GB RAM</span>
-    <span class="n">image</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ubuntu-24.04&quot;</span>
-    <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;nbg1&quot;</span>  <span class="c1"># Nuremberg, Germany</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"benchmark-runner"</span>
+    <span class="n">server_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"cx23"</span>  <span class="c1"># 2 vCPU, 4GB RAM</span>
+    <span class="n">image</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ubuntu-24.04"</span>
+    <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"nbg1"</span>  <span class="c1"># Nuremberg, Germany</span>
     <span class="n">ssh_key_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">cloud_init_packages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">DEFAULT_CLOUD_INIT_PACKAGES</span><span class="p">))</span></div>
 
@@ -266,35 +266,35 @@
 <div class="viewcode-block" id="HetznerServerManager">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/server/index.html#laxate.hetzner.HetznerServerManager">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">HetznerServerManager</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages Hetzner Cloud servers for running benchmarks.</span>
+<span class="w">    </span><span class="sd">"""Manages Hetzner Cloud servers for running benchmarks.</span>
 
 <span class="sd">    Usage::</span>
 
-<span class="sd">        manager = HetznerServerManager(token=&quot;your-hcloud-token&quot;)</span>
+<span class="sd">        manager = HetznerServerManager(token="your-hcloud-token")</span>
 <span class="sd">        server = manager.create_server()</span>
 <span class="sd">        # … run benchmarks …</span>
 <span class="sd">        manager.delete_server(server)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ServerConfig</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">hcloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span>
             <span class="n">token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
-            <span class="n">application_name</span><span class="o">=</span><span class="s2">&quot;laxate&quot;</span><span class="p">,</span>
-            <span class="n">application_version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+            <span class="n">application_name</span><span class="o">=</span><span class="s2">"laxate"</span><span class="p">,</span>
+            <span class="n">application_version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="n">ServerConfig</span><span class="p">()</span>
 
 <div class="viewcode-block" id="HetznerServerManager.create_server">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/server/index.html#laxate.hetzner.HetznerServerManager.create_server">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wait_for_ready</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoundServer</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new Hetzner server for benchmarking.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create a new Hetzner server for benchmarking."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">hcloud.images</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">hcloud.locations</span><span class="w"> </span><span class="kn">import</span> <span class="n">Location</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">hcloud.server_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ServerType</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating Hetzner server: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Creating Hetzner server: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
         <span class="n">ssh_keys</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">ssh_key_name</span><span class="p">:</span>
@@ -312,7 +312,7 @@
         <span class="p">)</span>
 
         <span class="n">server</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">server</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Server created: </span><span class="si">%s</span><span class="s2"> (ID: </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Server created: </span><span class="si">%s</span><span class="s2"> (ID: </span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">wait_for_ready</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_wait_for_server_ready</span><span class="p">(</span><span class="n">server</span><span class="p">)</span>
@@ -323,16 +323,16 @@
 <div class="viewcode-block" id="HetznerServerManager.delete_server">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/server/index.html#laxate.hetzner.HetznerServerManager.delete_server">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">delete_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server</span><span class="p">:</span> <span class="n">BoundServer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a Hetzner server.&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Deleting server: </span><span class="si">%s</span><span class="s2"> (ID: </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Delete a Hetzner server."""</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Deleting server: </span><span class="si">%s</span><span class="s2"> (ID: </span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
         <span class="n">server</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Server deleted successfully&quot;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Server deleted successfully"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="HetznerServerManager.get_server">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/server/index.html#laxate.hetzner.HetznerServerManager.get_server">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoundServer</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get an existing server by name.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get an existing server by name."""</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">name</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">servers</span><span class="o">.</span><span class="n">get_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
 
@@ -340,30 +340,30 @@
 <div class="viewcode-block" id="HetznerServerManager._wait_for_server_ready">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/server/index.html#laxate.hetzner.HetznerServerManager._wait_for_server_ready">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_wait_for_server_ready</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server</span><span class="p">:</span> <span class="n">BoundServer</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">300</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wait for the server to be running.&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Waiting for server to be ready…&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Wait for the server to be running."""</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Waiting for server to be ready…"</span><span class="p">)</span>
 
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="n">timeout</span><span class="p">:</span>
             <span class="n">server</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">servers</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">server</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;running&quot;</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Server is running at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">public_net</span><span class="o">.</span><span class="n">ipv4</span><span class="o">.</span><span class="n">ip</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">server</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">"running"</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Server is running at </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">public_net</span><span class="o">.</span><span class="n">ipv4</span><span class="o">.</span><span class="n">ip</span><span class="p">)</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
                 <span class="k">return</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Server status: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Server status: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">server</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 
-        <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Server did not become ready within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Server did not become ready within </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2"> seconds"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="HetznerServerManager._get_cloud_init_script">
 <a class="viewcode-back" href="../../../autoapi/laxate/hetzner/server/index.html#laxate.hetzner.HetznerServerManager._get_cloud_init_script">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_cloud_init_script</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a cloud-init script from configured packages.&quot;&quot;&quot;</span>
-        <span class="n">packages</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">cloud_init_packages</span><span class="p">)</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;#cloud-config</span>
+<span class="w">        </span><span class="sd">"""Build a cloud-init script from configured packages."""</span>
+        <span class="n">packages</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">cloud_init_packages</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"""#cloud-config</span>
 <span class="s2">package_update: true</span>
 <span class="s2">package_upgrade: true</span>
 
@@ -373,7 +373,7 @@
 <span class="s2">runcmd:</span>
 <span class="s2">  - python3 -m pip install --upgrade pip</span>
 <span class="s2">  - python3 -m pip install uv</span>
-<span class="s2">&quot;&quot;&quot;</span></div>
+<span class="s2">"""</span></div>
 </div>
 
 </pre></div>

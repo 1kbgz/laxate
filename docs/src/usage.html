@@ -476,21 +476,21 @@ revisions, versions, branches, labels, <code class="docutils literal notranslate
 <section id="tool-laxate">
 <h2><code class="docutils literal notranslate"><span class="pre">[tool.laxate]</span></code><a class="headerlink" href="#tool-laxate" title="Link to this heading">¶</a></h2>
 <div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.laxate]</span>
-<span class="n">benched_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pyproject.toml&quot;</span>
-<span class="n">report_output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;docs/benchmarks&quot;</span>
-<span class="n">results_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;benched-results&quot;</span>
-<span class="n">benchmark_repo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://github.com/example/benchmarks.git&quot;</span>
-<span class="n">project_repo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://github.com/example/subject.git&quot;</span>
-<span class="n">server_name_prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;benchmark-runner&quot;</span>
-<span class="n">branch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;main&quot;</span>
-<span class="n">python_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;3.11&quot;</span>
-<span class="n">cloud_init_packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;git&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;python3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;python3-pip&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;python3-venv&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;build-essential&quot;</span><span class="p">]</span>
-<span class="n">machine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="n">benched_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"pyproject.toml"</span>
+<span class="n">report_output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"docs/benchmarks"</span>
+<span class="n">results_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"benched-results"</span>
+<span class="n">benchmark_repo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"https://github.com/example/benchmarks.git"</span>
+<span class="n">project_repo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"https://github.com/example/subject.git"</span>
+<span class="n">server_name_prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"benchmark-runner"</span>
+<span class="n">branch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"main"</span>
+<span class="n">python_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"3.11"</span>
+<span class="n">cloud_init_packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"git"</span><span class="p">,</span><span class="w"> </span><span class="s2">"python3"</span><span class="p">,</span><span class="w"> </span><span class="s2">"python3-pip"</span><span class="p">,</span><span class="w"> </span><span class="s2">"python3-venv"</span><span class="p">,</span><span class="w"> </span><span class="s2">"build-essential"</span><span class="p">]</span>
+<span class="n">machine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span>
 <span class="n">quick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
-<span class="n">docker_image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;python:3.11&quot;</span>
-<span class="n">docker_engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;docker&quot;</span>
-<span class="n">docker_network</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;host&quot;</span>
-<span class="n">docker_container_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="n">docker_image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"python:3.11"</span>
+<span class="n">docker_engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"docker"</span>
+<span class="n">docker_network</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"host"</span>
+<span class="n">docker_container_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span>
 <span class="n">docker_init_commands</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
 <span class="n">docker_mounts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
 </pre></div>

@@ -231,11 +231,11 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for laxate.config</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Configuration loading for laxate.</span>
+<span></span><span class="sd">"""Configuration loading for laxate.</span>
 
 <span class="sd">Configuration is read from `[tool.laxate]` in pyproject.toml, with CLI</span>
 <span class="sd">arguments taking precedence over file-based config.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -247,49 +247,49 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="c1"># Defaults</span>
-<span class="n">DEFAULT_BENCHED_CONFIG</span> <span class="o">=</span> <span class="s2">&quot;pyproject.toml&quot;</span>
-<span class="n">DEFAULT_REPORT_OUTPUT</span> <span class="o">=</span> <span class="s2">&quot;docs/benchmarks&quot;</span>
-<span class="n">DEFAULT_SERVER_NAME_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;benchmark-runner&quot;</span>
-<span class="n">DEFAULT_PYTHON_VERSION</span> <span class="o">=</span> <span class="s2">&quot;3.11&quot;</span>
+<span class="n">DEFAULT_BENCHED_CONFIG</span> <span class="o">=</span> <span class="s2">"pyproject.toml"</span>
+<span class="n">DEFAULT_REPORT_OUTPUT</span> <span class="o">=</span> <span class="s2">"docs/benchmarks"</span>
+<span class="n">DEFAULT_SERVER_NAME_PREFIX</span> <span class="o">=</span> <span class="s2">"benchmark-runner"</span>
+<span class="n">DEFAULT_PYTHON_VERSION</span> <span class="o">=</span> <span class="s2">"3.11"</span>
 <span class="n">DEFAULT_CLOUD_INIT_PACKAGES</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;git&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;python3&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;python3-pip&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;python3-venv&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;build-essential&quot;</span><span class="p">,</span>
+    <span class="s2">"git"</span><span class="p">,</span>
+    <span class="s2">"python3"</span><span class="p">,</span>
+    <span class="s2">"python3-pip"</span><span class="p">,</span>
+    <span class="s2">"python3-venv"</span><span class="p">,</span>
+    <span class="s2">"build-essential"</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="c1"># Docker defaults</span>
-<span class="n">DEFAULT_DOCKER_IMAGE</span> <span class="o">=</span> <span class="s2">&quot;python:3.11&quot;</span>
-<span class="n">DEFAULT_DOCKER_ENGINE</span> <span class="o">=</span> <span class="s2">&quot;docker&quot;</span>
-<span class="n">DEFAULT_DOCKER_NETWORK</span> <span class="o">=</span> <span class="s2">&quot;host&quot;</span>
+<span class="n">DEFAULT_DOCKER_IMAGE</span> <span class="o">=</span> <span class="s2">"python:3.11"</span>
+<span class="n">DEFAULT_DOCKER_ENGINE</span> <span class="o">=</span> <span class="s2">"docker"</span>
+<span class="n">DEFAULT_DOCKER_NETWORK</span> <span class="o">=</span> <span class="s2">"host"</span>
 
 
 <div class="viewcode-block" id="LaxateConfig">
 <a class="viewcode-back" href="../../autoapi/laxate/index.html#laxate.config.LaxateConfig">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">LaxateConfig</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top-level configuration for laxate.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Top-level configuration for laxate."""</span>
 
     <span class="c1"># Paths (relative to project root or absolute)</span>
     <span class="n">benched_config</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_BENCHED_CONFIG</span>
     <span class="n">report_output</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_REPORT_OUTPUT</span>
 
     <span class="c1"># Repository URLs</span>
-    <span class="n">benchmark_repo</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">project_repo</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">benchmark_repo</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">project_repo</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
 
     <span class="c1"># Server / runner</span>
     <span class="n">server_name_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_SERVER_NAME_PREFIX</span>
-    <span class="n">branch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;main&quot;</span>
+    <span class="n">branch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"main"</span>
     <span class="n">python_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_PYTHON_VERSION</span>
     <span class="n">cloud_init_packages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">DEFAULT_CLOUD_INIT_PACKAGES</span><span class="p">))</span>
 
     <span class="c1"># Results</span>
-    <span class="n">results_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;results&quot;</span>
+    <span class="n">results_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"results"</span>
 
     <span class="c1"># Local runner</span>
-    <span class="n">machine</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">machine</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
     <span class="n">quick</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="c1"># Docker runner</span>
@@ -298,7 +298,7 @@
     <span class="n">docker_network</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_DOCKER_NETWORK</span>
     <span class="n">docker_init_commands</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
     <span class="n">docker_mounts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-    <span class="n">docker_container_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">docker_container_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
 
     <span class="c1"># Project root (where pyproject.toml lives)</span>
     <span class="n">project_root</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span>
@@ -306,7 +306,7 @@
 <div class="viewcode-block" id="LaxateConfig.resolve_path">
 <a class="viewcode-back" href="../../autoapi/laxate/index.html#laxate.config.LaxateConfig.resolve_path">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">resolve_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve a path relative to the project root.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Resolve a path relative to the project root."""</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">():</span>
             <span class="k">return</span> <span class="n">p</span>
@@ -318,19 +318,19 @@
 <div class="viewcode-block" id="load_pyproject_config">
 <a class="viewcode-back" href="../../autoapi/laxate/config/index.html#laxate.config.load_pyproject_config">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">load_pyproject_config</span><span class="p">(</span><span class="n">project_root</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the `[tool.laxate]` section from pyproject.toml.</span>
+<span class="w">    </span><span class="sd">"""Load the `[tool.laxate]` section from pyproject.toml.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        project_root: Directory containing pyproject.toml. Defaults to cwd.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Dictionary of config values, empty if not found.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">project_root</span> <span class="ow">or</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
-    <span class="n">pyproject_path</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="s2">&quot;pyproject.toml&quot;</span>
+    <span class="n">pyproject_path</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="s2">"pyproject.toml"</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">pyproject_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No pyproject.toml found at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pyproject_path</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"No pyproject.toml found at </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">pyproject_path</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{}</span>
 
     <span class="k">try</span><span class="p">:</span>
@@ -340,12 +340,12 @@
         <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
             <span class="kn">import</span><span class="w"> </span><span class="nn">tomli</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tomllib</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyproject_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pyproject_path</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">tomllib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tool&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;laxate&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tool"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"laxate"</span><span class="p">,</span> <span class="p">{})</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Failed to parse pyproject.toml&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Failed to parse pyproject.toml"</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{}</span></div>
 
 
@@ -356,11 +356,11 @@
     <span class="n">project_root</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">overrides</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LaxateConfig</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a LaxateConfig from pyproject.toml + optional overrides.</span>
+<span class="w">    </span><span class="sd">"""Build a LaxateConfig from pyproject.toml + optional overrides.</span>
 
 <span class="sd">    CLI arguments should be passed as *overrides*; they take precedence</span>
 <span class="sd">    over values read from pyproject.toml.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">project_root</span> <span class="ow">or</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
     <span class="n">file_cfg</span> <span class="o">=</span> <span class="n">load_pyproject_config</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
 
@@ -371,10 +371,10 @@
             <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">merged</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
 
-    <span class="n">merged</span><span class="p">[</span><span class="s2">&quot;project_root&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span>
+    <span class="n">merged</span><span class="p">[</span><span class="s2">"project_root"</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span>
     <span class="c1"># Convert project_root from str if needed</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">merged</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;project_root&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">merged</span><span class="p">[</span><span class="s2">&quot;project_root&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">merged</span><span class="p">[</span><span class="s2">&quot;project_root&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">merged</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"project_root"</span><span class="p">),</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">merged</span><span class="p">[</span><span class="s2">"project_root"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">merged</span><span class="p">[</span><span class="s2">"project_root"</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">LaxateConfig</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">merged</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">LaxateConfig</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">})</span></div>
 

@@ -231,7 +231,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for laxate.docker</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Docker/Podman benchmark runner — executes Benched inside a container.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Docker/Podman benchmark runner — executes Benched inside a container."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -254,7 +254,7 @@
 <div class="viewcode-block" id="DockerBenchmarkRunner">
 <a class="viewcode-back" href="../../autoapi/laxate/docker/index.html#laxate.docker.DockerBenchmarkRunner">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DockerBenchmarkRunner</span><span class="p">(</span><span class="n">BenchmarkRunner</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run Benched benchmarks inside a Docker or Podman container.</span>
+<span class="w">    </span><span class="sd">"""Run Benched benchmarks inside a Docker or Podman container.</span>
 
 <span class="sd">    The runner:</span>
 <span class="sd">    1. Starts a container from the chosen image</span>
@@ -262,7 +262,7 @@
 <span class="sd">    3. Runs optional initialisation commands</span>
 <span class="sd">    4. Executes Benched benchmarks</span>
 <span class="sd">    5. Results are written back via the bind mount</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -286,7 +286,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">network</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">laxate_config</span><span class="o">.</span><span class="n">docker_network</span> <span class="ow">or</span> <span class="n">DEFAULT_DOCKER_NETWORK</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init_commands</span> <span class="o">=</span> <span class="n">init_commands</span> <span class="k">if</span> <span class="n">init_commands</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">laxate_config</span><span class="o">.</span><span class="n">docker_init_commands</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mounts</span> <span class="o">=</span> <span class="n">mounts</span> <span class="k">if</span> <span class="n">mounts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">laxate_config</span><span class="o">.</span><span class="n">docker_mounts</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">container_name</span> <span class="o">=</span> <span class="n">container_name</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">laxate_config</span><span class="o">.</span><span class="n">docker_container_name</span> <span class="ow">or</span> <span class="s2">&quot;laxate-bench&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">container_name</span> <span class="o">=</span> <span class="n">container_name</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">laxate_config</span><span class="o">.</span><span class="n">docker_container_name</span> <span class="ow">or</span> <span class="s2">"laxate-bench"</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">quick</span> <span class="o">=</span> <span class="n">quick</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">machine</span> <span class="o">=</span> <span class="n">machine</span>
@@ -298,52 +298,52 @@
 <div class="viewcode-block" id="DockerBenchmarkRunner.run_benchmarks">
 <a class="viewcode-back" href="../../autoapi/laxate/docker/index.html#laxate.docker.DockerBenchmarkRunner.run_benchmarks">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run_benchmarks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run Benched benchmarks inside a container.</span>
+<span class="w">        </span><span class="sd">"""Run Benched benchmarks inside a container.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Dictionary with ``returncode``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">project_root</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">laxate_config</span><span class="o">.</span><span class="n">project_root</span><span class="p">)</span>
         <span class="n">config_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">laxate_config</span><span class="o">.</span><span class="n">resolve_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">laxate_config</span><span class="o">.</span><span class="n">benched_config</span><span class="p">)</span>
 
         <span class="c1"># Build the in-container benchmark command</span>
         <span class="n">benched_cmd_parts</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;python&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;-m&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;benched&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;run&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;--pyproject&quot;</span><span class="p">,</span>
+            <span class="s2">"python"</span><span class="p">,</span>
+            <span class="s2">"-m"</span><span class="p">,</span>
+            <span class="s2">"benched"</span><span class="p">,</span>
+            <span class="s2">"run"</span><span class="p">,</span>
+            <span class="s2">"--pyproject"</span><span class="p">,</span>
             <span class="nb">str</span><span class="p">(</span><span class="n">config_path</span><span class="p">),</span>
         <span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">quick</span><span class="p">:</span>
-            <span class="n">benched_cmd_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--quick&quot;</span><span class="p">)</span>
+            <span class="n">benched_cmd_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"--quick"</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">machine</span><span class="p">:</span>
-            <span class="n">benched_cmd_parts</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;--machine&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">machine</span><span class="p">])</span>
+            <span class="n">benched_cmd_parts</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">"--machine"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">machine</span><span class="p">])</span>
 
         <span class="c1"># Combine init commands + benchmark command into a single shell script</span>
         <span class="n">script_parts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">script_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;set -e&quot;</span><span class="p">)</span>
+        <span class="n">script_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"set -e"</span><span class="p">)</span>
         <span class="n">script_parts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_commands</span><span class="p">)</span>
         <span class="n">script_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shlex</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">benched_cmd_parts</span><span class="p">))</span>
-        <span class="n">shell_script</span> <span class="o">=</span> <span class="s2">&quot; &amp;&amp; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">script_parts</span><span class="p">)</span>
+        <span class="n">shell_script</span> <span class="o">=</span> <span class="s2">" &amp;&amp; "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">script_parts</span><span class="p">)</span>
 
         <span class="c1"># Assemble docker/podman run command</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_run_command</span><span class="p">(</span><span class="n">project_root</span><span class="p">,</span> <span class="n">shell_script</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Running: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">returncode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_remove_container</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;returncode&quot;</span><span class="p">:</span> <span class="n">returncode</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"returncode"</span><span class="p">:</span> <span class="n">returncode</span><span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="DockerBenchmarkRunner.push_results_to_repo">
 <a class="viewcode-back" href="../../autoapi/laxate/docker/index.html#laxate.docker.DockerBenchmarkRunner.push_results_to_repo">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">push_results_to_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">github_token</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Not applicable for docker runs — results are on host via bind mount.&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Docker runner: results are available on the host via bind mount&quot;</span><span class="p">)</span></div>
+<span class="w">        </span><span class="sd">"""Not applicable for docker runs — results are on host via bind mount."""</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Docker runner: results are available on the host via bind mount"</span><span class="p">)</span></div>
 
 
     <span class="c1"># ------------------------------------------------------------------ #</span>
@@ -353,33 +353,33 @@
 <div class="viewcode-block" id="DockerBenchmarkRunner._build_run_command">
 <a class="viewcode-back" href="../../autoapi/laxate/docker/index.html#laxate.docker.DockerBenchmarkRunner._build_run_command">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_build_run_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">shell_script</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the ``docker run`` / ``podman run`` command list.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Build the ``docker run`` / ``podman run`` command list."""</span>
         <span class="n">cmd</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span>
-            <span class="s2">&quot;run&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;--name&quot;</span><span class="p">,</span>
+            <span class="s2">"run"</span><span class="p">,</span>
+            <span class="s2">"--name"</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">container_name</span><span class="p">,</span>
-            <span class="s2">&quot;--network&quot;</span><span class="p">,</span>
+            <span class="s2">"--network"</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="p">,</span>
-            <span class="s2">&quot;-v&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;-w&quot;</span><span class="p">,</span>
+            <span class="s2">"-v"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">project_root</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="s2">"-w"</span><span class="p">,</span>
             <span class="n">project_root</span><span class="p">,</span>
         <span class="p">]</span>
 
         <span class="k">for</span> <span class="n">mount</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mounts</span><span class="p">:</span>
-            <span class="n">cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="n">mount</span><span class="p">])</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">"-v"</span><span class="p">,</span> <span class="n">mount</span><span class="p">])</span>
 
-        <span class="n">cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;bash&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="n">shell_script</span><span class="p">])</span>
+        <span class="n">cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="s2">"bash"</span><span class="p">,</span> <span class="s2">"-c"</span><span class="p">,</span> <span class="n">shell_script</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">cmd</span></div>
 
 
 <div class="viewcode-block" id="DockerBenchmarkRunner._remove_container">
 <a class="viewcode-back" href="../../autoapi/laxate/docker/index.html#laxate.docker.DockerBenchmarkRunner._remove_container">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_remove_container</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the container (ignore errors if it doesn&#39;t exist).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Remove the container (ignore errors if it doesn't exist)."""</span>
         <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
-            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="s2">&quot;rm&quot;</span><span class="p">,</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">container_name</span><span class="p">],</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">,</span> <span class="s2">"rm"</span><span class="p">,</span> <span class="s2">"-f"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">container_name</span><span class="p">],</span>
             <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
             <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">DEVNULL</span><span class="p">,</span>
         <span class="p">)</span></div>

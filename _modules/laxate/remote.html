@@ -231,7 +231,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for laxate.remote</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;SSH and SCP utilities for remote benchmark execution.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""SSH and SCP utilities for remote benchmark execution."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -245,9 +245,9 @@
 <div class="viewcode-block" id="RemoteExecutor">
 <a class="viewcode-back" href="../../autoapi/laxate/remote/index.html#laxate.remote.RemoteExecutor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RemoteExecutor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute commands and transfer files on a remote host over SSH.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Execute commands and transfer files on a remote host over SSH."""</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;root&quot;</span><span class="p">,</span> <span class="n">ssh_key_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"root"</span><span class="p">,</span> <span class="n">ssh_key_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">host</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ssh_key_path</span> <span class="o">=</span> <span class="n">ssh_key_path</span>
@@ -259,27 +259,27 @@
 <div class="viewcode-block" id="RemoteExecutor.run">
 <a class="viewcode-back" href="../../autoapi/laxate/remote/index.html#laxate.remote.RemoteExecutor.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CompletedProcess</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run *command* on the remote host via SSH.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Run *command* on the remote host via SSH."""</span>
         <span class="n">ssh_args</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;ssh&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;StrictHostKeyChecking=no&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;UserKnownHostsFile=/dev/null&quot;</span><span class="p">,</span>
+            <span class="s2">"ssh"</span><span class="p">,</span>
+            <span class="s2">"-o"</span><span class="p">,</span>
+            <span class="s2">"StrictHostKeyChecking=no"</span><span class="p">,</span>
+            <span class="s2">"-o"</span><span class="p">,</span>
+            <span class="s2">"UserKnownHostsFile=/dev/null"</span><span class="p">,</span>
         <span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh_key_path</span><span class="p">:</span>
-            <span class="n">ssh_args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh_key_path</span><span class="p">])</span>
+            <span class="n">ssh_args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">"-i"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh_key_path</span><span class="p">])</span>
 
-        <span class="n">ssh_args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">])</span>
+        <span class="n">ssh_args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">command</span><span class="p">])</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Running SSH command: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Running SSH command: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ssh_args</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">check</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;stdout: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"stdout: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;stderr: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"stderr: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">result</span></div>
 
@@ -291,39 +291,39 @@
 <div class="viewcode-block" id="RemoteExecutor.upload">
 <a class="viewcode-back" href="../../autoapi/laxate/remote/index.html#laxate.remote.RemoteExecutor.upload">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">upload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Copy a local file to the remote host.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Copy a local file to the remote host."""</span>
         <span class="n">scp_args</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;scp&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;StrictHostKeyChecking=no&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;UserKnownHostsFile=/dev/null&quot;</span><span class="p">,</span>
+            <span class="s2">"scp"</span><span class="p">,</span>
+            <span class="s2">"-o"</span><span class="p">,</span>
+            <span class="s2">"StrictHostKeyChecking=no"</span><span class="p">,</span>
+            <span class="s2">"-o"</span><span class="p">,</span>
+            <span class="s2">"UserKnownHostsFile=/dev/null"</span><span class="p">,</span>
         <span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh_key_path</span><span class="p">:</span>
-            <span class="n">scp_args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh_key_path</span><span class="p">])</span>
+            <span class="n">scp_args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">"-i"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh_key_path</span><span class="p">])</span>
 
-        <span class="n">scp_args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">local_path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">remote_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
+        <span class="n">scp_args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">local_path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">remote_path</span><span class="si">}</span><span class="s2">"</span><span class="p">])</span>
         <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">scp_args</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="RemoteExecutor.download">
 <a class="viewcode-back" href="../../autoapi/laxate/remote/index.html#laxate.remote.RemoteExecutor.download">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">local_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Copy a file (or directory tree) from the remote host.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Copy a file (or directory tree) from the remote host."""</span>
         <span class="n">scp_args</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;scp&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;-r&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;StrictHostKeyChecking=no&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;UserKnownHostsFile=/dev/null&quot;</span><span class="p">,</span>
+            <span class="s2">"scp"</span><span class="p">,</span>
+            <span class="s2">"-r"</span><span class="p">,</span>
+            <span class="s2">"-o"</span><span class="p">,</span>
+            <span class="s2">"StrictHostKeyChecking=no"</span><span class="p">,</span>
+            <span class="s2">"-o"</span><span class="p">,</span>
+            <span class="s2">"UserKnownHostsFile=/dev/null"</span><span class="p">,</span>
         <span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh_key_path</span><span class="p">:</span>
-            <span class="n">scp_args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh_key_path</span><span class="p">])</span>
+            <span class="n">scp_args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">"-i"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssh_key_path</span><span class="p">])</span>
 
-        <span class="n">scp_args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">remote_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">local_path</span><span class="p">])</span>
+        <span class="n">scp_args</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">remote_path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">local_path</span><span class="p">])</span>
         <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">scp_args</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
@@ -334,26 +334,26 @@
 <div class="viewcode-block" id="RemoteExecutor.wait_for_ssh">
 <a class="viewcode-back" href="../../autoapi/laxate/remote/index.html#laxate.remote.RemoteExecutor.wait_for_ssh">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">wait_for_ssh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Block until the remote host accepts SSH connections.&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Waiting for SSH on </span><span class="si">%s</span><span class="s2"> …&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Block until the remote host accepts SSH connections."""</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Waiting for SSH on </span><span class="si">%s</span><span class="s2"> …"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">)</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="n">last_error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">timeout</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;echo &#39;SSH ready&#39;&quot;</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">"echo 'SSH ready'"</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;SSH connection established&quot;</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"SSH connection established"</span><span class="p">)</span>
                     <span class="k">return</span>
-                <span class="n">last_error</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;exit code </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">returncode</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">last_error</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"exit code </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">returncode</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="si">}</span><span class="s2">"</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># noqa: BLE001</span>
                 <span class="n">last_error</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
 
             <span class="n">elapsed</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;SSH not ready after </span><span class="si">%d</span><span class="s2">s, retrying… (last error: </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">,</span> <span class="n">last_error</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"SSH not ready after </span><span class="si">%d</span><span class="s2">s, retrying… (last error: </span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">,</span> <span class="n">last_error</span><span class="p">)</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
 
-        <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SSH not available after </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s. Last error: </span><span class="si">{</span><span class="n">last_error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SSH not available after </span><span class="si">{</span><span class="n">timeout</span><span class="si">}</span><span class="s2">s. Last error: </span><span class="si">{</span><span class="n">last_error</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 </div>
 
 </pre></div>

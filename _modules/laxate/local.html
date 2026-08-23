@@ -231,7 +231,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for laxate.local</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Local benchmark runner — executes Benched in the current environment.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Local benchmark runner — executes Benched in the current environment."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -248,7 +248,7 @@
 <div class="viewcode-block" id="LocalBenchmarkRunner">
 <a class="viewcode-back" href="../../autoapi/laxate/local/index.html#laxate.local.LocalBenchmarkRunner">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LocalBenchmarkRunner</span><span class="p">(</span><span class="n">BenchmarkRunner</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run Benched benchmarks locally using the current Python environment.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Run Benched benchmarks locally using the current Python environment."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -266,36 +266,36 @@
 <div class="viewcode-block" id="LocalBenchmarkRunner.run_benchmarks">
 <a class="viewcode-back" href="../../autoapi/laxate/local/index.html#laxate.local.LocalBenchmarkRunner.run_benchmarks">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run_benchmarks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run Benched benchmarks locally.</span>
+<span class="w">        </span><span class="sd">"""Run Benched benchmarks locally.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Dictionary containing ``returncode``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">config_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">laxate_config</span><span class="o">.</span><span class="n">resolve_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">laxate_config</span><span class="o">.</span><span class="n">benched_config</span><span class="p">)</span>
 
         <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span>
-            <span class="s2">&quot;-m&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;benched&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;run&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;--pyproject&quot;</span><span class="p">,</span>
+            <span class="s2">"-m"</span><span class="p">,</span>
+            <span class="s2">"benched"</span><span class="p">,</span>
+            <span class="s2">"run"</span><span class="p">,</span>
+            <span class="s2">"--pyproject"</span><span class="p">,</span>
             <span class="nb">str</span><span class="p">(</span><span class="n">config_path</span><span class="p">),</span>
         <span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">quick</span><span class="p">:</span>
-            <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--quick&quot;</span><span class="p">)</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"--quick"</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">machine</span><span class="p">:</span>
-            <span class="n">cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;--machine&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">machine</span><span class="p">])</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">"--machine"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">machine</span><span class="p">])</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Running: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
         <span class="n">returncode</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;returncode&quot;</span><span class="p">:</span> <span class="n">returncode</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"returncode"</span><span class="p">:</span> <span class="n">returncode</span><span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="LocalBenchmarkRunner.push_results_to_repo">
 <a class="viewcode-back" href="../../autoapi/laxate/local/index.html#laxate.local.LocalBenchmarkRunner.push_results_to_repo">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">push_results_to_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">github_token</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Not applicable for local runs — results are already on disk.&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Local runner: results are in </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">laxate_config</span><span class="o">.</span><span class="n">results_dir</span><span class="p">)</span></div>
+<span class="w">        </span><span class="sd">"""Not applicable for local runs — results are already on disk."""</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Local runner: results are in </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">laxate_config</span><span class="o">.</span><span class="n">results_dir</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
