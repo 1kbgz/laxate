@@ -100,7 +100,7 @@ def cleanup_servers(args: argparse.Namespace) -> int:
     deleted = 0
 
     for server in servers:
-        if server.name.startswith(prefix):
+        if server.name is not None and server.name.startswith(prefix):
             logger.info("Deleting server: %s", server.name)
             manager.delete_server(server)
             deleted += 1

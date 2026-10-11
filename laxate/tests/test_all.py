@@ -1,3 +1,5 @@
+from importlib.metadata import version
+
 from laxate import *
 
 
@@ -8,4 +10,4 @@ def test_all():
 def test_version():
     import laxate
 
-    assert laxate.__version__
+    assert laxate.__version__ == version("laxate")

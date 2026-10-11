@@ -35,6 +35,8 @@ class HetznerBenchmarkRunner(BenchmarkRunner):
         super().__init__(config)
         self.server = server
         self.ssh_key_path = ssh_key_path
+        if server.public_net is None or server.public_net.ipv4 is None:
+            raise ValueError("Hetzner benchmark server requires a public IPv4 address")
         self.server_ip = server.public_net.ipv4.ip
         self._remote = RemoteExecutor(
             host=self.server_ip,
@@ -102,6 +104,7 @@ class HetznerBenchmarkRunner(BenchmarkRunner):
 
         self._remote.wait_for_ssh()
 
+        assert self.server.server_type is not None
         server_type = self.server.server_type.name
         self._machine_name = f"hetzner-{server_type}"
 
@@ -191,6 +194,7 @@ class HetznerBenchmarkRunner(BenchmarkRunner):
             return results
 
     def _server_meta(self) -> dict:
+        assert self.server.server_type is not None
         return {
             "name": self.server.name,
             "id": self.server.id,

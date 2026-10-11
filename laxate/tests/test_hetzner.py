@@ -1,6 +1,8 @@
 """Tests for laxate.hetzner module."""
 
+import argparse
 import importlib.util
+from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -94,8 +96,49 @@ class TestHetznerServerManager:
         assert "git" in script
         assert "python3" in script
 
+    @patch("laxate.hetzner.server.time.sleep")
+    @patch("hcloud.Client")
+    def test_create_server_with_ssh_key_waits_for_running_server(self, mock_client_class, mock_sleep):
+        from laxate.hetzner.server import HetznerServerManager, ServerConfig
+
+        client = mock_client_class.return_value
+        server = MagicMock()
+        server.id = 123
+        server.status = "running"
+        server.public_net.ipv4.ip = "1.2.3.4"
+        ssh_key = client.ssh_keys.get_by_name.return_value
+        client.servers.create.return_value.server = server
+        client.servers.get_by_id.return_value = server
+        manager = HetznerServerManager(token="test-token", config=ServerConfig(ssh_key_name="benchmark-key"))
+
+        assert manager.create_server() is server
+
+        client.ssh_keys.get_by_name.assert_called_once_with("benchmark-key")
+        client.servers.get_by_id.assert_called_once_with(123)
+        mock_sleep.assert_called_once_with(30)
+        kwargs = client.servers.create.call_args.kwargs
+        assert kwargs["ssh_keys"] == [ssh_key]
+        assert kwargs["name"] == "benchmark-runner"
+        assert kwargs["server_type"].name == "cx23"
+        assert kwargs["image"].name == "ubuntu-24.04"
+        assert kwargs["location"].name == "nbg1"
+        assert "#cloud-config" in kwargs["user_data"]
+
 
 class TestHetznerBenchmarkRunner:
+    @pytest.mark.parametrize("missing_network", [True, False], ids=["no-public-network", "no-ipv4"])
+    def test_requires_public_ipv4(self, missing_network):
+        from laxate.hetzner.runner import HetznerBenchmarkRunner
+
+        server = MagicMock()
+        if missing_network:
+            server.public_net = None
+        else:
+            server.public_net.ipv4 = None
+
+        with pytest.raises(ValueError, match="public IPv4 address"):
+            HetznerBenchmarkRunner(server=server)
+
     def test_init(self):
         from laxate.hetzner.runner import HetznerBenchmarkRunner
 
@@ -208,3 +251,20 @@ class TestHetznerCLI:
             result = run_benchmarks(args)
 
         assert result == 1
+
+
+@patch("laxate.hetzner.cli.HetznerServerManager")
+def test_cleanup_skips_unnamed_and_unrelated_servers(mock_manager_class):
+    from laxate.hetzner.cli import cleanup_servers
+
+    matching = SimpleNamespace(name="benchmark-owned")
+    manager = mock_manager_class.return_value
+    manager.client.servers.get_all.return_value = [
+        SimpleNamespace(name=None),
+        SimpleNamespace(name="unrelated"),
+        matching,
+    ]
+
+    assert cleanup_servers(argparse.Namespace(token="test-token", prefix="benchmark-")) == 0
+
+    manager.delete_server.assert_called_once_with(matching)
