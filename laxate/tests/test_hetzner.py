@@ -96,6 +96,19 @@ class TestHetznerServerManager:
 
 
 class TestHetznerBenchmarkRunner:
+    @pytest.mark.parametrize("missing_network", [True, False], ids=["no-public-network", "no-ipv4"])
+    def test_requires_public_ipv4(self, missing_network):
+        from laxate.hetzner.runner import HetznerBenchmarkRunner
+
+        server = MagicMock()
+        if missing_network:
+            server.public_net = None
+        else:
+            server.public_net.ipv4 = None
+
+        with pytest.raises(ValueError, match="public IPv4 address"):
+            HetznerBenchmarkRunner(server=server)
+
     def test_init(self):
         from laxate.hetzner.runner import HetznerBenchmarkRunner
 

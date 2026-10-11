@@ -53,10 +53,11 @@ class HetznerServerManager:
         from hcloud.images import Image
         from hcloud.locations import Location
         from hcloud.server_types import ServerType
+        from hcloud.ssh_keys import BoundSSHKey, SSHKey
 
         logger.info("Creating Hetzner server: %s", self.config.name)
 
-        ssh_keys = []
+        ssh_keys: list[SSHKey | BoundSSHKey] = []
         if self.config.ssh_key_name:
             ssh_key = self.client.ssh_keys.get_by_name(self.config.ssh_key_name)
             if ssh_key:
@@ -96,9 +97,12 @@ class HetznerServerManager:
 
         start_time = time.time()
         while time.time() - start_time < timeout:
+            assert server.id is not None
             server = self.client.servers.get_by_id(server.id)
 
             if server.status == "running":
+                assert server.public_net is not None
+                assert server.public_net.ipv4 is not None
                 logger.info("Server is running at %s", server.public_net.ipv4.ip)
                 time.sleep(30)
                 return

@@ -39,6 +39,7 @@ develop = [
     "check-dist",
     "codespell",
     "hatchling",
+    "laxate[hetzner]",
     "mdformat",
     "mdformat-frontmatter",
     "mdformat-tables>=1",
