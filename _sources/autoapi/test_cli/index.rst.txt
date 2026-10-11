@@ -1,0 +1,30 @@
+test_cli
+========
+
+.. py:module:: test_cli
+
+.. autoapi-nested-parse::
+
+   Tests for Benched report and comparison commands.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   test_cli.test_publish_builds_static_benched_report
+   test_cli.test_preview_serves_static_benched_report
+   test_cli.test_compare_forwards_benched_run_selectors
+
+
+Module Contents
+---------------
+
+.. py:function:: test_publish_builds_static_benched_report(mock_load_config, mock_call, tmp_path)
+
+.. py:function:: test_preview_serves_static_benched_report(mock_load_config, mock_call, tmp_path)
+
+.. py:function:: test_compare_forwards_benched_run_selectors(mock_load_config, mock_call, tmp_path)
+

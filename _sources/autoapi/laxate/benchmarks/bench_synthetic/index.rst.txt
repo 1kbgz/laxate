@@ -1,0 +1,45 @@
+laxate.benchmarks.bench_synthetic
+=================================
+
+.. py:module:: laxate.benchmarks.bench_synthetic
+
+.. autoapi-nested-parse::
+
+   Synthetic benchmarks for Laxate's Benched workflow.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   laxate.benchmarks.bench_synthetic.config_data
+   laxate.benchmarks.bench_synthetic.test_config_operation
+   laxate.benchmarks.bench_synthetic._math_operations
+   laxate.benchmarks.bench_synthetic._list_comprehension
+   laxate.benchmarks.bench_synthetic._string_formatting
+   laxate.benchmarks.bench_synthetic.test_compute_operation
+
+
+Module Contents
+---------------
+
+.. py:function:: config_data(num_keys)
+
+.. py:function:: test_config_operation(benchmark, config_data, num_keys, operation)
+
+   Benchmark one configuration-processing operation.
+
+
+.. py:function:: _math_operations(iterations)
+
+.. py:function:: _list_comprehension(iterations)
+
+.. py:function:: _string_formatting(iterations)
+
+.. py:function:: test_compute_operation(benchmark, iterations, operation)
+
+   Benchmark one synthetic compute operation.
+
+
