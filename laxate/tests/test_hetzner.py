@@ -96,8 +96,9 @@ class TestHetznerServerManager:
         assert "git" in script
         assert "python3" in script
 
+    @patch("laxate.hetzner.server.time.sleep")
     @patch("hcloud.Client")
-    def test_create_server_with_ssh_key_waits_for_running_server(self, mock_client_class):
+    def test_create_server_with_ssh_key_waits_for_running_server(self, mock_client_class, mock_sleep):
         from laxate.hetzner.server import HetznerServerManager, ServerConfig
 
         client = mock_client_class.return_value
@@ -114,6 +115,7 @@ class TestHetznerServerManager:
 
         client.ssh_keys.get_by_name.assert_called_once_with("benchmark-key")
         client.servers.get_by_id.assert_called_once_with(123)
+        mock_sleep.assert_called_once_with(30)
         kwargs = client.servers.create.call_args.kwargs
         assert kwargs["ssh_keys"] == [ssh_key]
         assert kwargs["name"] == "benchmark-runner"
