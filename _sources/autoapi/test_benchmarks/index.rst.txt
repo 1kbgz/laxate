@@ -1,0 +1,34 @@
+test_benchmarks
+===============
+
+.. py:module:: test_benchmarks
+
+.. autoapi-nested-parse::
+
+   Tests for Laxate's native pytest benchmark suite.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   test_benchmarks.PROJECT_ROOT
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   test_benchmarks.test_collects_all_parameterized_benchmarks
+
+
+Module Contents
+---------------
+
+.. py:data:: PROJECT_ROOT
+
+.. py:function:: test_collects_all_parameterized_benchmarks()
+

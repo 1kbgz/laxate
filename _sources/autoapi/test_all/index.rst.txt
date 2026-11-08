@@ -1,0 +1,22 @@
+test_all
+========
+
+.. py:module:: test_all
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   test_all.test_all
+   test_all.test_version
+
+
+Module Contents
+---------------
+
+.. py:function:: test_all()
+
+.. py:function:: test_version()
+

@@ -1,0 +1,46 @@
+laxate.hetzner.cli
+==================
+
+.. py:module:: laxate.hetzner.cli
+
+.. autoapi-nested-parse::
+
+   Hetzner Cloud benchmark helpers.
+
+   These functions are called from the main ``laxate`` CLI via
+   ``laxate run hetzner`` and ``laxate cleanup hetzner``.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   laxate.hetzner.cli.logger
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   laxate.hetzner.cli.run_benchmarks
+   laxate.hetzner.cli.cleanup_servers
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:function:: run_benchmarks(args: argparse.Namespace) -> int
+
+   Run benchmarks on a Hetzner Cloud server.
+
+
+.. py:function:: cleanup_servers(args: argparse.Namespace) -> int
+
+   Clean up any leftover benchmark servers.
+
+

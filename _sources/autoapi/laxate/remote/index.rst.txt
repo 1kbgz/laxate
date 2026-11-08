@@ -1,0 +1,74 @@
+laxate.remote
+=============
+
+.. py:module:: laxate.remote
+
+.. autoapi-nested-parse::
+
+   SSH and SCP utilities for remote benchmark execution.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   laxate.remote.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   laxate.remote.RemoteExecutor
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: RemoteExecutor(host: str, user: str = 'root', ssh_key_path: str | None = None)
+
+   Execute commands and transfer files on a remote host over SSH.
+
+
+   .. py:attribute:: host
+
+
+   .. py:attribute:: user
+      :value: 'root'
+
+
+
+   .. py:attribute:: ssh_key_path
+      :value: None
+
+
+
+   .. py:method:: run(command: str, check: bool = True) -> subprocess.CompletedProcess
+
+      Run *command* on the remote host via SSH.
+
+
+
+   .. py:method:: upload(local_path: str, remote_path: str) -> None
+
+      Copy a local file to the remote host.
+
+
+
+   .. py:method:: download(remote_path: str, local_path: str) -> None
+
+      Copy a file (or directory tree) from the remote host.
+
+
+
+   .. py:method:: wait_for_ssh(timeout: int = 300, interval: int = 15) -> None
+
+      Block until the remote host accepts SSH connections.
+
+
+
